@@ -45,4 +45,37 @@ public class Player {
 	public void setLeft(Player left) {
 		this.left = left;
 	}
+	
+	public String nodeForm() {
+		
+		String result = "";
+		
+		if(left != null) {
+			
+			result += left.getName();
+			
+		} else {
+			
+			result += null;
+		}
+		
+		result += " <-- " + name + " --> ";
+		
+		if(right != null) {
+			
+			result += right.getName();
+			
+		} else {
+			
+			result += null;
+		}
+		
+		return result;
+	}
+	
+	@Override
+	public String toString() {
+		
+		return name + ", " + score + ", " + left + ", " + right;
+	}
 }

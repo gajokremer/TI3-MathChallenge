@@ -2,6 +2,7 @@ package ui;
 
 import java.io.IOException;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,14 +17,20 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import model.GameManager;
 import model.Player;
+import model.Timer;
+import threads.TimerThread;
 
 public class ControllerAdminGUI {
 	
 	private GameManager gm;
+	private TimerThread tmThread;
+	private Timer tm;
 	
 	public ControllerAdminGUI() {
 
 		gm = new GameManager();
+		tmThread = new TimerThread(this);
+		tm = new Timer(10);
 	}
 	
 	@FXML
@@ -79,7 +86,7 @@ public class ControllerAdminGUI {
 	}
 	
 	@FXML
-	void btnPlay() throws IOException {
+	void btnPlay(ActionEvent event) throws IOException {
 		
 		if(!tfNewPlayerName.getText().trim().isEmpty()) {
 			
@@ -97,7 +104,11 @@ public class ControllerAdminGUI {
 			lbPlayingNow.setText("Player: " + gm.getPlayingNow().getName());
 			lbCurrentPoints.setText("Score: " + gm.getPlayingNow().getScore());
 			
-			btnNewQuestion();
+			tm.setStart(tm.getStart() - 1);
+			tmThread.setTm(tm);
+			tmThread.start();
+			
+			btnNewQuestion(event);
 			
 //			int[] answers = gm.newProblem();
 //			
@@ -123,7 +134,7 @@ public class ControllerAdminGUI {
 	}
 	
 	@FXML
-	void btnNewQuestion() {
+	void btnNewQuestion(ActionEvent event) {
 		
 		int[] answers = gm.newProblem();
 		
@@ -145,10 +156,14 @@ public class ControllerAdminGUI {
 		rbAnswer4.setText(String.valueOf(answers[3]));
 		
 		lbCurrentPoints.setText("Score: " + gm.getPlayingNow().getScore());
+		
+//		tm.setStart(tm.getStart() - 1);
+//		tmThread.setTm(tm);
+//		tmThread.start();
 	}
 	
 	@FXML
-	void btnConfirm() throws IOException {
+	void btnConfirm(ActionEvent event) throws IOException {
 		
 		int answer = 0;
 		
@@ -199,17 +214,22 @@ public class ControllerAdminGUI {
 		
 		System.out.println("Current score: " + gm.getPlayingNow().getScore());
 		
-		btnNewQuestion();
+		btnNewQuestion(event);
 	}
 	
 	@FXML
-	void btnScoreboard() {
+	void btnScoreboard(ActionEvent event) {
 
 		
 	}
 	
+	public void changeTimer(int i) {
+
+		lbTimer.setText(String.valueOf(i));
+	}
+	
 	@FXML
-	void btnBack() throws IOException {
+	void btnBack(ActionEvent event) throws IOException {
 		
 		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("MainMenu.fxml"));
 		fxmlloader.setController(this);

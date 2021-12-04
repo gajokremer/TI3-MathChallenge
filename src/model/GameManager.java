@@ -25,30 +25,24 @@ public class GameManager {
 		this.currentQuestion = currentQuestion;
 	}
 
-	public String[] newProblem() {
+	public int[] newProblem() {
 		
 		int type = generateType();
 		
 		generateProblem(type, true);
 
-//		int[] values = generateValues();
-//		String equation = generateQuestion(values[0], values[1]);
-//		System.out.println("Equation: " + equation);
-//		return generateAnswer(equation);
-		
 		return null;
 	}
 	
 	private int generateType() {
 		
-//		int type = (int) (Math.random() * (4 - 1) + 1);
-		int type = 4;
+		int type = (int) (Math.random() * (4 - 1) + 1);
+//		int type = 1;
 		
 		return type;
 	}
 
-	
-	private void generateProblem(int type, boolean valid) {
+	private int[] generateProblem(int type, boolean valid) {
 
 		valid = true;
 		
@@ -58,10 +52,14 @@ public class GameManager {
 			int a = values[0];
 			int b = values[1];
 			
+			System.out.println("a: " + a);
+			System.out.println("b: " + b);
+			System.out.println("type: " + type + "\n");
+			
 			if(type != 4) {
 				
-				String equation = generateQuestion(a, b, type);
-				generateAnswer(equation);
+				generateQuestion(a, b, type);
+				return generateAnswer(a, b, type);
 				
 			} else if(type == 4) {
 				
@@ -69,16 +67,17 @@ public class GameManager {
 				
 				if(valid) {
 					
-					String equation = generateQuestion(a, b, type);
-					generateAnswer(equation);
+					generateQuestion(a, b, type);
+					return generateAnswer(a,b, type);
 					
 				} else {
 					
 					generateProblem(type, valid);
 				}
 			}
-			
 		}
+		
+		return null;
 	}
 
 	private int[] generateValues() {
@@ -88,9 +87,6 @@ public class GameManager {
 		int a = (int) (Math.random() * 99);
 		int b = (int) (Math.random() * 99);
 		
-		System.out.println("a: " + a);
-		System.out.println("b: " + b);
-
 		values[0] = a;
 		values[1] = b;
 		
@@ -100,37 +96,27 @@ public class GameManager {
 	private String generateQuestion(int a, int b, int type) {
 		
 		String result = "";
-//
-//		int a = (int) (Math.random() * 99);
-//		int b = (int) (Math.random() * 99);
-//		
-//		System.out.println("a: " + a);
-//		System.out.println("b: " + b);
-//
-//		int type = (int) (Math.random() * (4 - 1) + 1);
-//		int type = 4;
-//		System.out.println(type);
 		
 		switch(type) {
 		
 		case 1:
 //			result = a + " + " + b;
-			result = sum(a, b);
+			result = sumEquation(a, b);
 			break;		
 			
 		case 2:
 //			result = a + " - " + b;
-			result = sub(a, b);
+			result = subEquation(a, b);
 			break;
 		
 		case 3:
 //			result = a + " * " + b;
-			result = mult(a, b);
+			result = multEquation(a, b);
 			break;
 
 		case 4:
 //			result = a + " / " + b;
-			result = div(a, b);
+			result = divEquation(a, b);
 			break;
 		}
 		
@@ -170,12 +156,12 @@ public class GameManager {
 		return false;
 	}
 	
-	private String sum(int a, int b) {
+	private String sumEquation(int a, int b) {
 
 		return a + " + " + b;
 	}
 	
-	private String sub(int a, int b) {
+	private String subEquation(int a, int b) {
 
 		if(a > b || a == b) {
 			
@@ -187,31 +173,130 @@ public class GameManager {
 		}
 	}
 	
-	private String mult(int a, int b) {
+	private String multEquation(int a, int b) {
 
 		return a + " * " + b;
 	}
 	
-	private String div(int a, int b) {
+	private String divEquation(int a, int b) {
 		
 		if(a > b || a == b) {
 			
-			return a + "/" + b;
+			return a + " / " + b;
 		}
 		
 		else {
 			
-			return b + "/" + a;
+			return b + " / " + a;
 		}
-		
-		
 	}
 	
-	private String[] generateAnswer(String equation) {
+	private int[] generateAnswer(int a, int b, int type) {
 
+		int correct = 0;
+		
+		switch(type) {
+
+		case 1:
+			correct = sum(a, b);
+			break;		
+
+		case 2:
+			correct = sub(a, b);
+			break;
+
+		case 3:
+			correct = mult(a, b);
+			break;
+
+		case 4:
+			correct = div(a, b);
+			break;
+		}
+		
+		int upper = 0;
+		int lower = 0;
+		
+		upper = correct + 10;
+		
+		if(correct - 10 > 0) {
+			
+			lower = correct - 10;
+			
+		} else {
+			
+			lower = 0;
+		}
+		
+		System.out.println("Correct: " + correct);
+		System.out.println("Upper: " + upper);
+		System.out.println("Lower: " + lower + "\n");
+		
+		int wrong1, wrong2, wrong3;
+		
+		wrong1 = (int) (Math.random() * (upper - lower) + lower);
+		
+		do {
+			
+			wrong2 = (int) (Math.random() * (upper - lower) + lower);
+			
+		} while(wrong1 == wrong2);
+		
+		do {
+			
+			wrong3 = (int) (Math.random() * (upper - lower) + lower);
+			
+		} while(wrong1 == wrong3);
+		
+//		System.out.println(wrong1 + ", " + wrong2 + "," + wrong3);
+
+		for(int i = 0; i < 3; i++) {
+			
+			
+		}
+		
 		return null;
 	}
 
+	private int sum(int a, int b) {
+		
+		return a + b;
+	}
+
+	private int sub(int a, int b) {
+
+		if(a > b) {
+			
+			return a - b;
+			
+		} else if(b > a) {
+			
+			return b - a;
+			
+		} else {
+			
+			return 0;
+		}
+	}
+	
+	private int mult(int a, int b) {
+
+		return a * b;
+	}
+	
+	private int div(int a, int b) {
+
+		if(a > b || a == b) {
+			
+			return a / b;
+		}
+		
+		else {
+			
+			return b / a;
+		}
+	}
+	
 	public void addOrdered(String name) {
 		
 		

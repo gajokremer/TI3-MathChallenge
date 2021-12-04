@@ -36,32 +36,32 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <TextField fx:id="tfProblem" alignment="CENTER" editable="false" layoutX="57.0" layoutY="130.0">
+      <TextField fx:id="tfProblem" alignment="CENTER" editable="false" layoutX="57.0" layoutY="149.0">
          <font>
             <Font size="56.0" />
          </font>
       </TextField>
       <RadioButton fx:id="rbAnswer1" layoutX="57.0" layoutY="291.0" mnemonicParsing="false" text="RadioButton">
          <font>
-            <Font size="36.0" />
+            <Font size="42.0" />
          </font>
          <toggleGroup>
             <ToggleGroup fx:id="tgAnswers" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="rbAnswer2" layoutX="497.0" layoutY="291.0" mnemonicParsing="false" text="RadioButton" toggleGroup="$tgAnswers">
+      <RadioButton fx:id="rbAnswer2" layoutX="452.0" layoutY="291.0" mnemonicParsing="false" text="RadioButton" toggleGroup="$tgAnswers">
          <font>
-            <Font size="36.0" />
+            <Font size="42.0" />
          </font>
       </RadioButton>
       <RadioButton fx:id="rbAnswer3" layoutX="57.0" layoutY="449.0" mnemonicParsing="false" text="RadioButton" toggleGroup="$tgAnswers">
          <font>
-            <Font size="36.0" />
+            <Font size="42.0" />
          </font>
       </RadioButton>
-      <RadioButton fx:id="rbAnswer4" layoutX="497.0" layoutY="449.0" mnemonicParsing="false" text="RadioButton" toggleGroup="$tgAnswers">
+      <RadioButton fx:id="rbAnswer4" layoutX="452.0" layoutY="449.0" mnemonicParsing="false" text="RadioButton" toggleGroup="$tgAnswers">
          <font>
-            <Font size="36.0" />
+            <Font size="42.0" />
          </font>
       </RadioButton>
    </children>

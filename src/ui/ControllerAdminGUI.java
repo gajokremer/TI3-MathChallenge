@@ -92,10 +92,17 @@ public class ControllerAdminGUI {
 			lbPlayingNow.setText("Player: " + tfNewPlayerName.getText());
 			lbCurrentPoints.setText("Points: " + 0);
 			
-			gm.newProblem();
+//			Integer[] answers = gm.newProblem();
+			int[] answers = gm.newProblem();
+//			int[] answers = {1, 2, 3, 4};
 			String question = gm.getCurrentQuestion();
 			
 			tfProblem.setText(question);
+			
+			rbAnswer1.setText(String.valueOf(answers[0]));
+			rbAnswer2.setText(String.valueOf(answers[1]));
+			rbAnswer3.setText(String.valueOf(answers[2]));
+			rbAnswer4.setText(String.valueOf(answers[3]));
 			
 		} else {
 			

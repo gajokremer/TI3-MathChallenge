@@ -94,12 +94,12 @@ public class ControllerAdminGUI {
 			
 			int[] answers = gm.newProblem();
 			
-			System.out.print("\nGUI: ");
-			gm.printArray(answers);
-			
 			String question = gm.getCurrentQuestion();
 			
 			tfProblem.setText(question);
+			
+//			System.out.print("\nGUI: ");
+//			gm.printArray(answers);
 			
 			rbAnswer1.setText(String.valueOf(answers[0]));
 			rbAnswer2.setText(String.valueOf(answers[1]));
@@ -119,6 +119,38 @@ public class ControllerAdminGUI {
 	void btnScoreboard() {
 
 		
+	}
+	
+	@FXML
+	void btnConfirm() {
+		
+		int answer = 0;
+		
+		if(rbAnswer1.isSelected()) {
+    		
+    		answer = Integer.parseInt(rbAnswer1.getText());
+    		
+    	} else if(rbAnswer2.isSelected()) {
+    		
+    		answer = Integer.parseInt(rbAnswer2.getText());
+    		
+    	} else if(rbAnswer3.isSelected()) {
+    		
+    		answer = Integer.parseInt(rbAnswer3.getText());
+    		
+    	} else if(rbAnswer4.isSelected()) {
+    		
+    		answer = Integer.parseInt(rbAnswer4.getText());
+    		
+    	} else {
+    		
+    		String header = "Game error";
+    		String message = "An answers must be selected";
+    		
+    		showWarningDialogue(header, message);
+    	}
+		
+		System.out.println("Selected answer: " + answer);
 	}
 	
 	@FXML

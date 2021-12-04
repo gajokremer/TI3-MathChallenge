@@ -32,9 +32,10 @@ public class GameManager {
 		int type = generateType();
 		
 		int[] answers = generateProblem(type, true);
-		
-		System.out.print("\n\nBefore GUI: ");
-		printArray(answers);
+		System.out.println("\nAnswers: " + answers);
+
+//		System.out.print("\n\nBefore GUI: ");
+//		printArray(answers);
 		
 		return answers;
 	}
@@ -49,7 +50,7 @@ public class GameManager {
 
 	private int[] generateProblem(int type, boolean valid) {
 
-		int[] answers = null;
+//		int[] answers = null;
 		
 		valid = true;
 		
@@ -58,6 +59,8 @@ public class GameManager {
 			int[] values = generateValues();
 			int a = values[0];
 			int b = values[1];
+//			int a = 100;
+//			int b = 50;
 			
 			System.out.println("a: " + a);
 			System.out.println("b: " + b);
@@ -66,25 +69,31 @@ public class GameManager {
 			if(type != 4) {
 				
 				generateQuestion(a, b, type);
-				answers = generateAnswer(a, b, type);
+//				answers = generateAnswer(a, b, type);
+				return generateAnswer(a, b, type);
 				
 			} else if(type == 4) {
 				
 				valid = isValid(a, b);
+				System.out.println("Valid: " + valid);
 				
 				if(valid) {
 					
 					generateQuestion(a, b, type);
-					answers = generateAnswer(a, b, type);
+//					answers = generateAnswer(a, b, type);
+					return generateAnswer(a, b, type);
 					
 				} else {
 					
-					generateProblem(type, valid);
+//					answers = generateProblem(type, valid);
+					return generateProblem(type, valid);
 				}
 			}
 		}
 		
-		return answers;
+//		System.out.println("-Answers: " + answers);
+		
+		return null;
 	}
 
 	private int[] generateValues() {
@@ -128,13 +137,14 @@ public class GameManager {
 		}
 		
 		setCurrentQuestion(result);
+		System.out.println("Equation: " + result);
 	}
 	
 	private boolean isValid(int a, int b) {
 		
 		if(a != 0 && b != 0) {
 			
-			if(a > b || a == b) {
+			if(a > b) {
 				
 				if(a % b == 0) {
 					
@@ -145,7 +155,7 @@ public class GameManager {
 					return false;
 				}
 				
-			} else {
+			} else if(a < b) {
 				
 				if(b % a == 0) {
 					
@@ -155,6 +165,10 @@ public class GameManager {
 					
 					return false;
 				}
+				
+			} else {
+				
+				return true;
 			}
 		}
 		
@@ -285,6 +299,8 @@ public class GameManager {
 		System.out.println();
 		System.out.print("Random: ");
 		printArray(answers);
+		
+//		System.out.println("\n\nAnswers: " + answers);
 		
 		return answers;
 	}

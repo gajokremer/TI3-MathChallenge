@@ -9,7 +9,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="344.0" layoutY="382.0" mnemonicParsing="false" onAction="#btnPlay" style="-fx-background-color: #4076b6#4076b6; -fx-border-color: #;" text="Play" textFill="WHITE">
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="344.0" layoutY="382.0" mnemonicParsing="false" onAction="#btnPlay" style="-fx-background-color: #4076b6;" text="Play" textFill="WHITE">
          <font>
             <Font size="36.0" />
          </font>
@@ -25,7 +25,7 @@
             <Font size="30.0" />
          </font>
       </TextField>
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="288.0" layoutY="475.0" mnemonicParsing="false" onAction="#btnScoreboard" style="-fx-background-color: #4076b6#4076b6;" text="Scoreboard" textFill="WHITE">
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="288.0" layoutY="475.0" mnemonicParsing="false" onAction="#btnScoreboard" style="-fx-background-color: #4076b6;" text="Scoreboard" textFill="WHITE">
          <font>
             <Font size="36.0" />
          </font>

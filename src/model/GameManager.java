@@ -5,6 +5,7 @@ import java.util.Random;
 public class GameManager {
 	
 	private Player root;
+	private Player playingNow;
 	private String currentQuestion;
 	
 	public GameManager() {
@@ -19,6 +20,14 @@ public class GameManager {
 		this.root = root;
 	}
 	
+	public Player getPlayingNow() {
+		return playingNow;
+	}
+
+	public void setPlayingNow(Player playingNow) {
+		this.playingNow = playingNow;
+	}
+
 	public String getCurrentQuestion() {
 		return currentQuestion;
 	}
@@ -32,7 +41,7 @@ public class GameManager {
 		int type = generateType();
 		
 		int[] answers = generateProblem(type, true);
-		System.out.println("\nAnswers: " + answers);
+//		System.out.println("\nAnswers: " + answers);
 
 //		System.out.print("\n\nBefore GUI: ");
 //		printArray(answers);
@@ -62,9 +71,9 @@ public class GameManager {
 //			int a = 100;
 //			int b = 50;
 			
-			System.out.println("a: " + a);
-			System.out.println("b: " + b);
-			System.out.println("type: " + type + "\n");
+//			System.out.println("a: " + a);
+//			System.out.println("b: " + b);
+//			System.out.println("type: " + type + "\n");
 			
 			if(type != 4) {
 				
@@ -75,7 +84,7 @@ public class GameManager {
 			} else if(type == 4) {
 				
 				valid = isValid(a, b);
-				System.out.println("Valid: " + valid);
+//				System.out.println("Valid: " + valid);
 				
 				if(valid) {
 					
@@ -137,7 +146,7 @@ public class GameManager {
 		}
 		
 		setCurrentQuestion(result);
-		System.out.println("Equation: " + result);
+//		System.out.println("Equation: " + result);
 	}
 	
 	private boolean isValid(int a, int b) {
@@ -246,45 +255,45 @@ public class GameManager {
 			
 			lower = 0;
 		}
-		
-		System.out.println("Correct: " + correct);
-		System.out.println("Upper: " + upper);
-		System.out.println("Lower: " + lower + "\n");
+//		
+//		System.out.println("Correct: " + correct);
+//		System.out.println("Upper: " + upper);
+//		System.out.println("Lower: " + lower + "\n");
 		
 		int wrong1, wrong2, wrong3;
 		
 		
 		wrong1 = lower + (int) (Math.random() * ((upper - lower) + 1));
-		System.out.println("Wrong1: " + wrong1);
+//		System.out.println("Wrong1: " + wrong1);
 		
 		while(wrong1 == correct) {
 			
 			wrong1 = lower + (int) (Math.random() * ((upper - lower) + 1));
-			System.out.println("New Wrong1: " + wrong1);
+//			System.out.println("New Wrong1: " + wrong1);
 		}
 		
 		wrong2 = lower + (int) (Math.random() * ((upper - lower) + 1));
-		System.out.println("Wrong2: " + wrong2);
+//		System.out.println("Wrong2: " + wrong2);
 		
 		while(wrong2 == correct || wrong2 == wrong1) {
 			
 			wrong2 = lower + (int) (Math.random() * ((upper - lower) + 1));
-			System.out.println("New Wrong2: " + wrong2);
+//			System.out.println("New Wrong2: " + wrong2);
 		}
 		
 		wrong3 = lower + (int) (Math.random() * ((upper - lower) + 1));
-		System.out.println("Wrong3: " + wrong3);
+//		System.out.println("Wrong3: " + wrong3);
 		
 		while(wrong3 == correct || wrong3 == wrong1 || wrong3 == wrong2) {
 			
 			wrong3 = lower + (int) (Math.random() * ((upper - lower) + 1));
-			System.out.println("New Wrong3: " + wrong3);
+//			System.out.println("New Wrong3: " + wrong3);
 		}
 		
 		int[] answers = {correct, wrong1, wrong2, wrong3};
 		
-		System.out.print("Before: ");
-		printArray(answers);
+//		System.out.print("Before: ");
+//		printArray(answers);
 		
 		Random rand = new Random();
 		
@@ -296,9 +305,9 @@ public class GameManager {
 			answers[i] = temp;
 		}
 		
-		System.out.println();
-		System.out.print("Random: ");
-		printArray(answers);
+//		System.out.println();
+//		System.out.print("Random: ");
+//		printArray(answers);
 		
 //		System.out.println("\n\nAnswers: " + answers);
 		
@@ -348,12 +357,52 @@ public class GameManager {
 		}
 	}
 	
+	public boolean verifyAnswer(int answer) {
+		
+		String[] values = currentQuestion.split(" ");
+		
+		printArray(values);
+		
+		int a = Integer.parseInt(values[0]);
+		int b = Integer.parseInt(values[2]);
+		
+		int c = 0;
+		
+		switch(values[1]) {
+		
+		case "+":
+			c = a + b;
+			break;
+			
+		case "-":
+			c = a - b;
+			break;
+			
+		case "*":
+			c = a * b;
+			break;
+			
+		case "/":
+			c = a / b;
+			break;
+		}
+		
+		if(answer == c) {
+			
+			return true;
+			
+		} else {
+			
+			return false;
+		}
+	}
+	
 	public void addOrdered(String name) {
 		
 		
 	}
 	
-	public void printArray(int[] array) {
+	public void printArray(String[] array) {
 
 		for(int i = 0; i < array.length; i++) {
 			

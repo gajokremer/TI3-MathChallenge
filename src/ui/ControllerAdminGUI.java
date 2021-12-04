@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import model.GameManager;
+import model.Player;
 
 public class ControllerAdminGUI {
 	
@@ -89,22 +90,28 @@ public class ControllerAdminGUI {
 			
 			Image logo = new Image("Math Challenge Logo.png");
 			ivMainMenuLogo.setImage(logo);
-			lbPlayingNow.setText("Player: " + tfNewPlayerName.getText());
-			lbCurrentPoints.setText("Points: " + 0);
 			
-			int[] answers = gm.newProblem();
+			Player p = new Player(tfNewPlayerName.getText(), 0);
+			gm.setPlayingNow(p);
 			
-			String question = gm.getCurrentQuestion();
+			lbPlayingNow.setText("Player: " + gm.getPlayingNow().getName());
+			lbCurrentPoints.setText("Score: " + gm.getPlayingNow().getScore());
 			
-			tfProblem.setText(question);
+			btnNewQuestion();
 			
-//			System.out.print("\nGUI: ");
-//			gm.printArray(answers);
-			
-			rbAnswer1.setText(String.valueOf(answers[0]));
-			rbAnswer2.setText(String.valueOf(answers[1]));
-			rbAnswer3.setText(String.valueOf(answers[2]));
-			rbAnswer4.setText(String.valueOf(answers[3]));
+//			int[] answers = gm.newProblem();
+//			
+//			String question = gm.getCurrentQuestion();
+//			
+//			tfProblem.setText(question);
+//			
+////			System.out.print("\nGUI: ");
+////			gm.printArray(answers);
+//			
+//			rbAnswer1.setText(String.valueOf(answers[0]));
+//			rbAnswer2.setText(String.valueOf(answers[1]));
+//			rbAnswer3.setText(String.valueOf(answers[2]));
+//			rbAnswer4.setText(String.valueOf(answers[3]));
 			
 		} else {
 			
@@ -116,13 +123,32 @@ public class ControllerAdminGUI {
 	}
 	
 	@FXML
-	void btnScoreboard() {
-
+	void btnNewQuestion() {
 		
+		int[] answers = gm.newProblem();
+		
+		String question = gm.getCurrentQuestion();
+		
+		tfProblem.setText(question);
+		
+//		System.out.print("\nGUI: ");
+//		gm.printArray(answers);
+		
+		rbAnswer1.setSelected(false);
+		rbAnswer2.setSelected(false);
+		rbAnswer3.setSelected(false);
+		rbAnswer4.setSelected(false);
+		
+		rbAnswer1.setText(String.valueOf(answers[0]));
+		rbAnswer2.setText(String.valueOf(answers[1]));
+		rbAnswer3.setText(String.valueOf(answers[2]));
+		rbAnswer4.setText(String.valueOf(answers[3]));
+		
+		lbCurrentPoints.setText("Score: " + gm.getPlayingNow().getScore());
 	}
 	
 	@FXML
-	void btnConfirm() {
+	void btnConfirm() throws IOException {
 		
 		int answer = 0;
 		
@@ -150,7 +176,36 @@ public class ControllerAdminGUI {
     		showWarningDialogue(header, message);
     	}
 		
-		System.out.println("Selected answer: " + answer);
+		boolean correct = gm.verifyAnswer(answer);
+		System.out.println("\nCorrect: " + correct);
+
+		if(correct) {
+			
+			int newScore = gm.getPlayingNow().getScore() + 10;
+			gm.getPlayingNow().setScore(newScore);
+			
+		} else {
+			
+			if(gm.getPlayingNow().getScore() > 10) {
+				
+				int newScore = gm.getPlayingNow().getScore() - 10;
+				gm.getPlayingNow().setScore(newScore);
+				
+			} else {
+				
+				gm.getPlayingNow().setScore(0);
+			}
+		}
+		
+		System.out.println("Current score: " + gm.getPlayingNow().getScore());
+		
+		btnNewQuestion();
+	}
+	
+	@FXML
+	void btnScoreboard() {
+
+		
 	}
 	
 	@FXML

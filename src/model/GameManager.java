@@ -32,13 +32,16 @@ public class GameManager {
 		int type = generateType();
 		
 		int[] answers = generateProblem(type, true);
-
+		
+		System.out.print("\n\nBefore GUI: ");
+		printArray(answers);
+		
 		return answers;
 	}
 	
 	private int generateType() {
 		
-		int type = (int) (Math.random() * (4 - 1) + 1);
+		int type = 1 + (int) (Math.random() * ((4 - 1) + 1));
 //		int type = 4;
 		
 		return type;
@@ -46,6 +49,8 @@ public class GameManager {
 
 	private int[] generateProblem(int type, boolean valid) {
 
+		int[] answers = null;
+		
 		valid = true;
 		
 		if(valid) {
@@ -61,7 +66,7 @@ public class GameManager {
 			if(type != 4) {
 				
 				generateQuestion(a, b, type);
-				return generateAnswer(a, b, type);
+				answers = generateAnswer(a, b, type);
 				
 			} else if(type == 4) {
 				
@@ -70,7 +75,7 @@ public class GameManager {
 				if(valid) {
 					
 					generateQuestion(a, b, type);
-					return generateAnswer(a,b, type);
+					answers = generateAnswer(a, b, type);
 					
 				} else {
 					
@@ -79,7 +84,7 @@ public class GameManager {
 			}
 		}
 		
-		return null;
+		return answers;
 	}
 
 	private int[] generateValues() {
@@ -95,7 +100,7 @@ public class GameManager {
 		return values;
 	}
 	
-	private String generateQuestion(int a, int b, int type) {
+	private void generateQuestion(int a, int b, int type) {
 		
 		String result = "";
 		
@@ -123,8 +128,6 @@ public class GameManager {
 		}
 		
 		setCurrentQuestion(result);
-		
-		return result;
 	}
 	
 	private boolean isValid(int a, int b) {
@@ -237,61 +240,37 @@ public class GameManager {
 		int wrong1, wrong2, wrong3;
 		
 		
-		wrong1 = (int) (Math.random() * (upper - lower) + lower);
+		wrong1 = lower + (int) (Math.random() * ((upper - lower) + 1));
 		System.out.println("Wrong1: " + wrong1);
 		
 		while(wrong1 == correct) {
 			
-			wrong1 = (int) (Math.random() * (upper - lower) + lower);
+			wrong1 = lower + (int) (Math.random() * ((upper - lower) + 1));
 			System.out.println("New Wrong1: " + wrong1);
 		}
 		
-		wrong2 = (int) (Math.random() * (upper - lower) + lower);
+		wrong2 = lower + (int) (Math.random() * ((upper - lower) + 1));
 		System.out.println("Wrong2: " + wrong2);
 		
 		while(wrong2 == correct || wrong2 == wrong1) {
 			
-			wrong2 = (int) (Math.random() * (upper - lower) + lower);
+			wrong2 = lower + (int) (Math.random() * ((upper - lower) + 1));
 			System.out.println("New Wrong2: " + wrong2);
 		}
 		
-		wrong3 = (int) (Math.random() * (upper - lower) + lower);
+		wrong3 = lower + (int) (Math.random() * ((upper - lower) + 1));
 		System.out.println("Wrong3: " + wrong3);
 		
 		while(wrong3 == correct || wrong3 == wrong1 || wrong3 == wrong2) {
 			
-			wrong3 = (int) (Math.random() * (upper - lower) + lower);
+			wrong3 = lower + (int) (Math.random() * ((upper - lower) + 1));
 			System.out.println("New Wrong3: " + wrong3);
 		}
 		
-//		do {
-//			
-//			wrong1 = (int) (Math.random() * (upper - lower) + lower);
-//			
-//		} while(wrong1 == correct);
-//		
-//		do {
-//			
-//			wrong2 = (int) (Math.random() * (upper - lower) + lower);
-//			
-//		} while(wrong2 == correct && wrong2 == wrong1);
-//		
-//		do {
-//			
-//			wrong3 = (int) (Math.random() * (upper - lower) + lower);
-//			
-//		} while(wrong3 == correct && wrong3 == wrong1 && wrong3 == wrong2);
-		
-		
 		int[] answers = {correct, wrong1, wrong2, wrong3};
 		
-		
-		
-		for(int i = 0; i < answers.length; i++) {
-			
-			System.out.print(answers[i] + " ");
-		}
-		
+		System.out.print("Before: ");
+		printArray(answers);
 		
 		Random rand = new Random();
 		
@@ -304,13 +283,8 @@ public class GameManager {
 		}
 		
 		System.out.println();
-		
-		for(int i = 0; i < answers.length; i++) {
-			
-			System.out.print(answers[i] + " ");
-		}
-		
-		
+		System.out.print("Random: ");
+		printArray(answers);
 		
 		return answers;
 	}
@@ -361,5 +335,13 @@ public class GameManager {
 	public void addOrdered(String name) {
 		
 		
+	}
+	
+	public void printArray(int[] array) {
+
+		for(int i = 0; i < array.length; i++) {
+			
+			System.out.print(array[i] + " ");
+		}
 	}
 }

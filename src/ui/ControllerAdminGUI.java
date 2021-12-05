@@ -111,6 +111,8 @@ public class ControllerAdminGUI {
 
     @FXML
     private TextField tfScoreFound;
+    
+    
 
     private ObservableList<Player> observableList;
 
@@ -358,6 +360,7 @@ public class ControllerAdminGUI {
 		dialog.showAndWait();
 	}
 	
+	
 	@FXML
 	void btnFind(ActionEvent event) throws IOException {
 
@@ -395,6 +398,56 @@ public class ControllerAdminGUI {
 	}
 	
 	@FXML
+	void btnRemovePlayer(ActionEvent event) throws IOException {
+
+		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("RemovePlayer.fxml"));
+		fxmlloader.setController(this);
+		DialogPane dialoguePane = fxmlloader.load();
+		
+		Dialog<ButtonType> dialog = new Dialog<ButtonType>();
+		dialog.setDialogPane(dialoguePane);
+		dialog.showAndWait();
+		
+	}
+	
+	@FXML
+	void btnRemove(ActionEvent event) throws IOException {
+
+		if(!tfPlayerToFind.getText().trim().isEmpty()) {
+			
+			Player p =  new Player(tfPlayerToFind.getText(), 0);
+			
+			if(gm.playerExists(p)) {
+				
+				
+//				
+//				String header = "Remove Player Successful";
+//				String message = "Player information found";
+//
+//				showSuccessDialogue(header, message);
+				
+			} else {
+
+				String header = "Find Player Error";
+				String message = "This player doesn't exist";
+				
+				showWarningDialogue(header, message);
+				
+				tfPlayerToFind.setText("");
+			}
+
+		} else {
+			
+			String header = "Remove Player Error";
+			String message = "A name must be given to remove a player";
+			
+			showWarningDialogue(header, message);
+		}
+	}
+	
+	
+	
+	@FXML
 	void btnBack(ActionEvent event) throws IOException {
 		
 		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("MainMenu.fxml"));
@@ -407,6 +460,9 @@ public class ControllerAdminGUI {
 		
 		gm.setPlayingNow(null);
 	}
+	
+	
+	
 	
 	public void showSuccessDialogue(String header, String message) {
 

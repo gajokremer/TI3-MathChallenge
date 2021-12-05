@@ -23,10 +23,24 @@ public class TimerThread extends Thread {
 
 	@Override
 	public void run() {
-		
+
 		Platform.runLater(new Thread(() -> {
-			
-			cGUI.changeTimer(tm.getStart());
+
+			while(tm.getStart() != 0) {
+				
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				
+				System.out.println("Aqui");
+
+				tm.setStart(tm.getStart() - 1);
+				cGUI.changeTimer(tm.getStart());
+
+				
+			}
 		}));
 	}
 }

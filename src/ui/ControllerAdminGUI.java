@@ -1,6 +1,7 @@
 package ui;
 
 import java.io.IOException;
+import java.util.List;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,8 +30,9 @@ public class ControllerAdminGUI {
 	public ControllerAdminGUI() {
 
 		gm = new GameManager();
-		tmThread = new TimerThread(this);
 		tm = new Timer(10);
+		tmThread = new TimerThread(this);
+		tmThread.setTm(tm);
 	}
 	
 	@FXML
@@ -73,7 +75,7 @@ public class ControllerAdminGUI {
     private RadioButton rbAnswer4;
 
 	@FXML
-	void start() throws IOException {
+	void start() throws IOException, InterruptedException {
 
 		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("MainMenu.fxml"));
 		fxmlloader.setController(this);
@@ -83,10 +85,13 @@ public class ControllerAdminGUI {
 		Image logo = new Image("Math Challenge Logo.png");
 //		ivMainMenuLogo.setImage(logo);
 		ivMainMenuLogo2.setImage(logo);
+		
+//		tmThread.start();
+//		tmThread.join();
 	}
 	
 	@FXML
-	void btnPlay(ActionEvent event) throws IOException {
+	void btnPlay(ActionEvent event) throws IOException, InterruptedException {
 		
 		if(!tfNewPlayerName.getText().trim().isEmpty()) {
 			
@@ -103,13 +108,12 @@ public class ControllerAdminGUI {
 			
 			lbPlayingNow.setText("Player: " + gm.getPlayingNow().getName());
 			lbCurrentPoints.setText("Score: " + gm.getPlayingNow().getScore());
-			
-			tm.setStart(tm.getStart() - 1);
-			tmThread.setTm(tm);
-			tmThread.start();
-			
+
 			btnNewQuestion(event);
 			
+//			tmThread.start();
+//			tmThread.join();
+//			
 //			int[] answers = gm.newProblem();
 //			
 //			String question = gm.getCurrentQuestion();
@@ -136,6 +140,8 @@ public class ControllerAdminGUI {
 	@FXML
 	void btnNewQuestion(ActionEvent event) {
 		
+//		System.out.println("Aqui 2");;
+		
 		int[] answers = gm.newProblem();
 		
 		String question = gm.getCurrentQuestion();
@@ -156,32 +162,33 @@ public class ControllerAdminGUI {
 		rbAnswer4.setText(String.valueOf(answers[3]));
 		
 		lbCurrentPoints.setText("Score: " + gm.getPlayingNow().getScore());
-		
-//		tm.setStart(tm.getStart() - 1);
-//		tmThread.setTm(tm);
-//		tmThread.start();
 	}
 	
 	@FXML
 	void btnConfirm(ActionEvent event) throws IOException {
 		
 		int answer = 0;
+		boolean hasAnswer = false;
 		
 		if(rbAnswer1.isSelected()) {
     		
     		answer = Integer.parseInt(rbAnswer1.getText());
+    		hasAnswer = true;
     		
     	} else if(rbAnswer2.isSelected()) {
     		
     		answer = Integer.parseInt(rbAnswer2.getText());
+    		hasAnswer = true;
     		
     	} else if(rbAnswer3.isSelected()) {
     		
     		answer = Integer.parseInt(rbAnswer3.getText());
+    		hasAnswer = true;
     		
     	} else if(rbAnswer4.isSelected()) {
     		
     		answer = Integer.parseInt(rbAnswer4.getText());
+    		hasAnswer = true;
     		
     	} else {
     		
@@ -191,41 +198,60 @@ public class ControllerAdminGUI {
     		showWarningDialogue(header, message);
     	}
 		
-		boolean correct = gm.verifyAnswer(answer);
-		System.out.println("\nCorrect: " + correct);
-
-		if(correct) {
+		if(hasAnswer) {
 			
-			int newScore = gm.getPlayingNow().getScore() + 10;
-			gm.getPlayingNow().setScore(newScore);
+			boolean correct = gm.verifyAnswer(answer);
+			System.out.println("\nCorrect: " + correct);
 			
-		} else {
-			
-			if(gm.getPlayingNow().getScore() > 10) {
+			if(correct) {
 				
-				int newScore = gm.getPlayingNow().getScore() - 10;
+				int newScore = gm.getPlayingNow().getScore() + 10;
 				gm.getPlayingNow().setScore(newScore);
 				
 			} else {
 				
-				gm.getPlayingNow().setScore(0);
+				if(gm.getPlayingNow().getScore() > 10) {
+					
+					int newScore = gm.getPlayingNow().getScore() - 10;
+					gm.getPlayingNow().setScore(newScore);
+					
+				} else {
+					
+					gm.getPlayingNow().setScore(0);
+				}
 			}
+			
+			System.out.println("Current score: " + gm.getPlayingNow().getScore());
+			
+			btnNewQuestion(event);
 		}
-		
-		System.out.println("Current score: " + gm.getPlayingNow().getScore());
-		
-		btnNewQuestion(event);
-	}
-	
-	@FXML
-	void btnScoreboard(ActionEvent event) {
-
-		
 	}
 	
 	public void changeTimer(int i) {
-
+		
 		lbTimer.setText(String.valueOf(i));
+	}
+	
+	@FXML
+	void btnScoreboard(ActionEvent event) throws IOException {
+
+		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("Scoreboard.fxml"));
+		fxmlloader.setController(this);
+		Parent menu = fxmlloader.load();
+		mainPane.getChildren().setAll(menu);
+	}
+	
+	@FXML
+	void btnFinish(ActionEvent event) throws IOException {
+		
+		gm.addPlayer(gm.getPlayingNow());
+		
+		System.out.println("Print from root: \n" + gm.print(gm.getRoot()));
+		
+		List<Player> players = gm.orderedPlayerList();
+		System.out.println("Ordered players: " + gm.printOrdered(players));
+		
+		btnScoreboard(event);
 	}
 	
 	@FXML

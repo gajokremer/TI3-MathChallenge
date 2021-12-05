@@ -15,7 +15,7 @@
       </MenuBar>
       <Pane fx:id="mainPane" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <children>
-            <Button layoutX="373.0" layoutY="273.0" mnemonicParsing="false" onAction="#start" text="Button" />
+            <Button layoutX="373.0" layoutY="273.0" mnemonicParsing="false" onAction="#start" text="Button" textAlignment="CENTER" />
          </children>
       </Pane>
    </children>

@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class GameManager {
@@ -7,9 +9,10 @@ public class GameManager {
 	private Player root;
 	private Player playingNow;
 	private String currentQuestion;
+	private List<Player> players;
 	
 	public GameManager() {
-		
+		players = new ArrayList<>();
 	}
 
 	public Player getRoot() {
@@ -34,6 +37,14 @@ public class GameManager {
 
 	public void setCurrentQuestion(String currentQuestion) {
 		this.currentQuestion = currentQuestion;
+	}
+
+	public List<Player> getPlayers() {
+		return players;
+	}
+
+	public void setPlayers(List<Player> players) {
+		this.players = players;
 	}
 
 	public int[] newProblem() {
@@ -397,9 +408,116 @@ public class GameManager {
 		}
 	}
 	
-	public void addOrdered(String name) {
+	public void addPlayer(Player p) {
+
+//		Player p = new Player(name, phone, address, email);
 		
+		add(p, root);
 		
+		System.out.println("\nTrue Root: " + root);
+	}
+	
+	private void add(Player p, Player r) {
+		
+		if(root == null) {
+
+			root = p;
+//			setTotalPlayers(getTotalPlayers() + 1);
+
+		} else {
+			
+			System.out.println("Root: " + r);
+			System.out.println("Player: " + p);
+			
+			int rScore = r.getScore();
+			int pScore = p.getScore();
+
+			if(pScore > rScore) {
+
+				if(r.getRight() == null) {
+
+					r.setRight(p);
+//					setTotalPlayers(getTotalPlayers() + 1);
+
+				} else {
+
+					add(p, r.getRight());
+				}
+
+			} else if(pScore < rScore) {
+
+				if(r.getLeft() == null) {
+
+					r.setLeft(p);
+//					setTotalPlayers(getTotalPlayers() + 1);
+
+				} else {
+
+					add(p, r.getLeft());
+				}
+			} 
+		}
+	}
+	
+	public List<Player> orderedPlayerList() {
+
+		inOrder(root);
+		
+		return players;
+	}
+	
+	private void inOrder(Player r) {
+		
+		if(r == null) {
+			
+			return;
+			 
+		} else {
+			
+			inOrder(r.getLeft());
+			players.add(r);
+			inOrder(r.getRight());
+		}	
+	}
+	
+	public String printOrdered(List<Player> pL) {
+		
+		String list = "";
+		
+		for(int i = 0; i < pL.size(); i++) {
+			
+			list += "\n" + (i + 1) + ". " + pL.get(i);
+		}
+		
+		return list;
+	}
+	
+	public String print(Player r) {
+
+		String result = "";
+
+		//		System.out.println("=" + root);
+
+		if(r != null) {
+
+			result += r.nodeForm();
+
+			if(r.getLeft() != null) {
+
+				result += "\n" + print(r.getLeft());
+			}
+			
+			if(r.getRight() != null) {
+				
+				result += "\n" + print(r.getRight());
+			}
+			 
+		} else {
+			
+			result = "\n--There are no Programmers registered"; 
+		}
+		
+		return result;
 	}
 	
 	public void printArray(String[] array) {

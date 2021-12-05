@@ -476,7 +476,7 @@ public class GameManager {
 					add(p, r.getRight());
 				}
 
-			} else if(pScore < rScore) {
+			} else if(pScore <= rScore) {
 
 				if(r.getLeft() == null) {
 
@@ -560,5 +560,20 @@ public class GameManager {
 			
 			System.out.print(array[i] + " ");
 		}
+	}
+	
+	public int findPlayerPos(String name) {
+		
+		int pos = 0;
+		
+		for(int i = 0; i < players.size(); i++) {
+			
+			if(players.get(i).getName().equals(name)) {
+				
+				pos = i + 1;
+			}
+		}
+		
+		return pos;
 	}
 }

@@ -91,6 +91,15 @@ public class ControllerAdminGUI {
     @FXML
     private TableColumn<Player, String> tcScore;
     
+    @FXML
+    private TextField tfPlayerName;
+    
+    @FXML
+    private TextField tfPlayerScore;
+    
+    @FXML
+    private TextField tfPlayerRank;
+    
     private ObservableList<Player> observableList;
 
 	@FXML
@@ -139,12 +148,14 @@ public class ControllerAdminGUI {
 			} else {
 				
 				String header = "Game error";
-				String message = "This player already exists";
+				String message = "Player already exists";
 				
 				showWarningDialogue(header, message);
 				
-				tfNewPlayerName.setText(null);
-			}
+//				tfNewPlayerName.setText(null);
+
+				start();
+			}	
 			
 		} else {
 			
@@ -152,6 +163,10 @@ public class ControllerAdminGUI {
 			String message = "A name must be given to start the game";
 			
 			showWarningDialogue(header, message);
+
+//			tfNewPlayerName.setText(null);
+
+			start();
 		}
 	}
 	
@@ -272,6 +287,13 @@ public class ControllerAdminGUI {
 		mainPane.getChildren().setAll(menu);
 		
 		initializePodiumTableView();
+		
+		if(gm.getPlayingNow() != null) {
+			
+			tfPlayerName.setText(gm.getPlayingNow().getName());
+			tfPlayerScore.setText(String.valueOf(gm.getPlayingNow().getScore()));
+			tfPlayerRank.setText(String.valueOf(gm.findPlayerPos(gm.getPlayingNow().getName())));
+		}
 	}
 	
 	private void initializePodiumTableView() {

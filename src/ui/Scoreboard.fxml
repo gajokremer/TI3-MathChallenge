@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
@@ -35,5 +36,20 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
+      <TextField fx:id="tfPlayerName" alignment="CENTER" layoutX="253.0" layoutY="371.0" promptText="Play to get your score">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="tfPlayerScore" alignment="CENTER" layoutX="572.0" layoutY="371.0" prefHeight="45.0" prefWidth="93.0" promptText="Score">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="tfPlayerRank" alignment="CENTER" layoutX="137.0" layoutY="371.0" prefHeight="45.0" prefWidth="93.0" promptText="Rank">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </TextField>
    </children>
 </Pane>

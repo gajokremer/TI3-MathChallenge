@@ -10,6 +10,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
@@ -100,6 +103,15 @@ public class ControllerAdminGUI {
     @FXML
     private TextField tfPlayerRank;
     
+    @FXML
+    private TextField tfPlayerToFind;
+
+    @FXML
+    private TextField tfRankFound;
+
+    @FXML
+    private TextField tfScoreFound;
+
     private ObservableList<Player> observableList;
 
 	@FXML
@@ -326,12 +338,60 @@ public class ControllerAdminGUI {
 			podium[4] = players.get(4);
 		}
 		
-		
 		observableList = FXCollections.observableArrayList(podium);
 
 		tvPodium.setItems(observableList);
+//		tcRank.setCellValueFactory(new PropertyValueFactory<Player, String>(String.valueOf(gm.findPlayerPos("name"))));   
 		tcName.setCellValueFactory(new PropertyValueFactory<Player, String>("name"));   
 		tcScore.setCellValueFactory(new PropertyValueFactory<Player, String>("score"));
+	}
+	
+	@FXML
+	void btnFindPlayer(ActionEvent event) throws IOException {
+
+		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("FindPlayer.fxml"));
+		fxmlloader.setController(this);
+		DialogPane dialoguePane = fxmlloader.load();
+		
+		Dialog<ButtonType> dialog = new Dialog<ButtonType>();
+		dialog.setDialogPane(dialoguePane);
+		dialog.showAndWait();
+	}
+	
+	@FXML
+	void btnFind(ActionEvent event) throws IOException {
+
+		if(!tfPlayerToFind.getText().trim().isEmpty()) {
+			
+			Player p =  new Player(tfPlayerToFind.getText(), 0);
+			
+			if(gm.playerExists(p)) {
+				
+				tfScoreFound.setText(String.valueOf(gm.findPlayerScore(tfPlayerToFind.getText())));;
+				tfRankFound.setText(String.valueOf(gm.findPlayerPos(tfPlayerToFind.getText())));
+				
+				String header = "Find Player Successful";
+				String message = "Player information found";
+
+				showSuccessDialogue(header, message);
+				
+			} else {
+				
+				String header = "Find Player Error";
+				String message = "This player doesn't exist";
+				
+				showWarningDialogue(header, message);
+				
+				tfPlayerToFind.setText("");
+			}
+
+		} else {
+			
+			String header = "Find Player Error";
+			String message = "A name must be given to find information";
+			
+			showWarningDialogue(header, message);
+		}
 	}
 	
 	@FXML

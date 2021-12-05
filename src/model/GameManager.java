@@ -576,4 +576,19 @@ public class GameManager {
 		
 		return pos;
 	}
+	
+	public int findPlayerScore(String name) {
+		
+		int score = 0;
+		
+		for(int i = 0; i < players.size(); i++) {
+			
+			if(players.get(i).getName().equals(name)) {
+				
+				score = players.get(i).getScore();
+			}
+		}
+		
+		return score;
+	}
 }

@@ -461,6 +461,8 @@ public class GameManager {
 	
 	public List<Player> orderedPlayerList() {
 
+		players.removeAll(players);
+		
 		inOrder(root);
 		
 		return players;
@@ -474,9 +476,9 @@ public class GameManager {
 			 
 		} else {
 			
-			inOrder(r.getLeft());
-			players.add(r);
 			inOrder(r.getRight());
+			players.add(r);
+			inOrder(r.getLeft());
 		}	
 	}
 	

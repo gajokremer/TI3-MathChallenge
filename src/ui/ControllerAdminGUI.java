@@ -3,6 +3,8 @@ package ui;
 import java.io.IOException;
 import java.util.List;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,9 +12,12 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -73,6 +78,20 @@ public class ControllerAdminGUI {
     
     @FXML
     private RadioButton rbAnswer4;
+    
+    @FXML
+    private TableView<Player> tvPodium;
+    
+    @FXML
+    private TableColumn<Player, String> tcRank;
+    
+    @FXML
+    private TableColumn<Player, String> tcName;
+
+    @FXML
+    private TableColumn<Player, String> tcScore;
+    
+    private ObservableList<Player> observableList;
 
 	@FXML
 	void start() throws IOException, InterruptedException {
@@ -233,25 +252,65 @@ public class ControllerAdminGUI {
 	}
 	
 	@FXML
-	void btnScoreboard(ActionEvent event) throws IOException {
-
-		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("Scoreboard.fxml"));
-		fxmlloader.setController(this);
-		Parent menu = fxmlloader.load();
-		mainPane.getChildren().setAll(menu);
-	}
-	
-	@FXML
 	void btnFinish(ActionEvent event) throws IOException {
 		
 		gm.addPlayer(gm.getPlayingNow());
 		
-		System.out.println("Print from root: \n" + gm.print(gm.getRoot()));
+//		System.out.println("\nPrint from root: \n" + gm.print(gm.getRoot()));
+//		
+//		List<Player> players = gm.orderedPlayerList();
+//		System.out.println("\nOrdered players: " + gm.printOrdered(players));
+
+		btnScoreboard(event);
+	}
+	
+	@FXML
+	void btnScoreboard(ActionEvent event) throws IOException {
+		
+		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("Scoreboard.fxml"));
+		fxmlloader.setController(this);
+		Parent menu = fxmlloader.load();
+		mainPane.getChildren().setAll(menu);
+		
+		initializePodiumTableView();
+	}
+	
+	private void initializePodiumTableView() {
+		
+		System.out.println("\nPrint from root: \n" + gm.print(gm.getRoot()));
 		
 		List<Player> players = gm.orderedPlayerList();
-		System.out.println("Ordered players: " + gm.printOrdered(players));
+		System.out.println("\nOrdered players: " + gm.printOrdered(players));
 		
-		btnScoreboard(event);
+//		List<Player> podium = new ArrayList<Player>();
+		
+		Player[] podium = new Player[5];
+		
+		if(players.size() <= 5) {
+			
+			for(int i = 0; i < players.size(); i++) {
+				
+				if(players.get(i) != null) {
+					
+					podium[i] = players.get(i);
+				}
+			}
+			
+		} else {
+			
+			podium[0] = players.get(0);
+			podium[1] = players.get(1);
+			podium[2] = players.get(2);
+			podium[3] = players.get(3);
+			podium[4] = players.get(4);
+		}
+		
+		
+		observableList = FXCollections.observableArrayList(podium);
+
+		tvPodium.setItems(observableList);
+		tcName.setCellValueFactory(new PropertyValueFactory<Player, String>("name"));   
+		tcScore.setCellValueFactory(new PropertyValueFactory<Player, String>("score"));
 	}
 	
 	@FXML
@@ -264,6 +323,8 @@ public class ControllerAdminGUI {
 		
 		Image logo = new Image("Math Challenge Logo.png");
 		ivMainMenuLogo2.setImage(logo);
+		
+		gm.setPlayingNow(null);
 	}
 	
 	public void showSuccessDialogue(String header, String message) {

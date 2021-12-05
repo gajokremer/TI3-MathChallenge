@@ -19,7 +19,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 
 		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("MainPane.fxml"));
-		ControllerAdminGUI controller = new ControllerAdminGUI();
+		ControllerGUI controller = new ControllerGUI();
 		fxmlloader.setController(controller);
 		Parent root = fxmlloader.load();
 		Scene scene = new Scene(root);

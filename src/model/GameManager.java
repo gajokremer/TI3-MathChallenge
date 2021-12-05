@@ -491,6 +491,19 @@ public class GameManager {
 		}
 	}
 	
+	public void remove(Player p) {
+
+		if(p.getName().equals(root.getName())) {
+			
+			System.out.println("-" + p.getName().equals(root.getName()));
+			
+			if(root.isLeaf()) {
+				
+				root = null;
+			}
+		}
+	}
+	
 	public List<Player> orderedPlayerList() {
 
 		players.removeAll(players);

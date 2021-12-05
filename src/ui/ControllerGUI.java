@@ -24,23 +24,24 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
 import model.GameManager;
 import model.Player;
 import model.Timer;
 import threads.TimerThread;
 
-public class ControllerAdminGUI {
+public class ControllerGUI {
 	
 	private GameManager gm;
 	private TimerThread tmThread;
 	private Timer tm;
 	
-	public ControllerAdminGUI() {
+	public ControllerGUI() {
 
 		gm = new GameManager();
 		tm = new Timer(10);
 		tmThread = new TimerThread(this);
-		tmThread.setTm(tm);
+//		tmThread.setTm(tm);
 	}
 	
 	@FXML
@@ -112,7 +113,8 @@ public class ControllerAdminGUI {
     @FXML
     private TextField tfScoreFound;
     
-    
+    @FXML
+    private Rectangle sqrProgressBar;
 
     private ObservableList<Player> observableList;
 
@@ -158,6 +160,8 @@ public class ControllerAdminGUI {
 				lbCurrentPoints.setText("Score: " + gm.getPlayingNow().getScore());
 				
 				btnNewQuestion(event);
+
+//				tmThread.start();
 				
 			} else {
 				
@@ -274,9 +278,20 @@ public class ControllerAdminGUI {
 		}
 	}
 	
-	public void changeTimer(int i) {
+	public void changeTimer() {
 		
-		lbTimer.setText(String.valueOf(i));
+		int newTime = Integer.parseInt(lbTimer.getText()) - 1;
+		
+		lbTimer.setText(String.valueOf(newTime));
+	}
+	
+	public void changeProgressBar(int width) {
+		
+//		System.out.println(sqrProgressBar.getWidth());
+		
+		sqrProgressBar.getWidth();
+
+//		sqrProgressBar.setWidth(sqrProgressBar.getWidth() + width);
 	}
 	
 	@FXML
@@ -386,6 +401,8 @@ public class ControllerAdminGUI {
 				showWarningDialogue(header, message);
 				
 				tfPlayerToFind.setText("");
+				tfScoreFound.setText("");
+				tfRankFound.setText("");
 			}
 
 		} else {
@@ -394,6 +411,10 @@ public class ControllerAdminGUI {
 			String message = "A name must be given to find information";
 			
 			showWarningDialogue(header, message);
+			
+			tfPlayerToFind.setText("");
+			tfScoreFound.setText("");
+			tfRankFound.setText("");
 		}
 	}
 	
@@ -407,7 +428,6 @@ public class ControllerAdminGUI {
 		Dialog<ButtonType> dialog = new Dialog<ButtonType>();
 		dialog.setDialogPane(dialoguePane);
 		dialog.showAndWait();
-		
 	}
 	
 	@FXML
@@ -417,14 +437,24 @@ public class ControllerAdminGUI {
 			
 			Player p =  new Player(tfPlayerToFind.getText(), 0);
 			
+			System.out.println("Exists: " + gm.playerExists(p));
+			
 			if(gm.playerExists(p)) {
 				
+				System.out.println("Inside");
 				
-//				
-//				String header = "Remove Player Successful";
-//				String message = "Player information found";
-//
-//				showSuccessDialogue(header, message);
+				gm.remove(p);
+
+				tfPlayerRank.setText("");
+				tfPlayerName.setText("");;
+				tfPlayerScore.setText("");
+
+				if(tfPlayerToFind.getText().equals(p.getName())) {
+					
+					gm.setPlayingNow(null);
+				}
+				
+				initializePodiumTableView();
 				
 			} else {
 

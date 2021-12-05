@@ -10,11 +10,12 @@ public class Player implements Serializable {
 	private int score;
 	private Player right;
 	private Player left;
+	private boolean isLeaf;
 	
 	public Player(String name, int score) {
-		
 		this.setName(name);
 		this.setScore(score);
+		isLeaf = true;
 	}
 
 	public String getName() {
@@ -49,6 +50,14 @@ public class Player implements Serializable {
 		this.left = left;
 	}
 	
+	public boolean isLeaf() {
+		return isLeaf;
+	}
+
+	public void setLeaf(boolean isLeaf) {
+		this.isLeaf = isLeaf;
+	}
+
 	public String nodeForm() {
 		
 		String result = "";

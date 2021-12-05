@@ -47,6 +47,38 @@ public class GameManager {
 		this.players = players;
 	}
 
+	public boolean playerExists(Player p) {
+
+		boolean found = false;
+		
+		return findPlayer(p, root, found);
+	}
+	
+	private boolean findPlayer(Player p, Player r, boolean found) {
+		
+		if(r != null) {
+			
+			if(p.getName().equals(r.getName())) {
+				
+				found = true;
+				
+			} else {
+				
+				if(r.getRight() != null && !found) {
+					
+					found = findPlayer(p, r.getRight(), found);
+				}
+				
+				if(r.getLeft() != null && !found) {
+					
+					found = findPlayer(p, r.getLeft(), found);
+				}
+			}
+		}
+		
+		return found;
+	}
+	
 	public int[] newProblem() {
 		
 		int type = generateType();

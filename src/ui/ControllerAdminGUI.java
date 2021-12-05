@@ -114,38 +114,37 @@ public class ControllerAdminGUI {
 		
 		if(!tfNewPlayerName.getText().trim().isEmpty()) {
 			
-			FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("Questions.fxml"));
-			fxmlloader.setController(this);
-			Parent menu = fxmlloader.load();
-			mainPane.getChildren().setAll(menu);
-			
-			Image logo = new Image("Math Challenge Logo.png");
-			ivMainMenuLogo.setImage(logo);
-			
 			Player p = new Player(tfNewPlayerName.getText(), 0);
-			gm.setPlayingNow(p);
 			
-			lbPlayingNow.setText("Player: " + gm.getPlayingNow().getName());
-			lbCurrentPoints.setText("Score: " + gm.getPlayingNow().getScore());
-
-			btnNewQuestion(event);
+			System.out.println("Exists: " + gm.playerExists(p));
 			
-//			tmThread.start();
-//			tmThread.join();
-//			
-//			int[] answers = gm.newProblem();
-//			
-//			String question = gm.getCurrentQuestion();
-//			
-//			tfProblem.setText(question);
-//			
-////			System.out.print("\nGUI: ");
-////			gm.printArray(answers);
-//			
-//			rbAnswer1.setText(String.valueOf(answers[0]));
-//			rbAnswer2.setText(String.valueOf(answers[1]));
-//			rbAnswer3.setText(String.valueOf(answers[2]));
-//			rbAnswer4.setText(String.valueOf(answers[3]));
+			if(!gm.playerExists(p)) {
+				
+				FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("Questions.fxml"));
+				fxmlloader.setController(this);
+				Parent menu = fxmlloader.load();
+				mainPane.getChildren().setAll(menu);
+				
+				Image logo = new Image("Math Challenge Logo.png");
+				ivMainMenuLogo.setImage(logo);
+				
+//			Player p = new Player(tfNewPlayerName.getText(), 0);
+				gm.setPlayingNow(p);
+				
+				lbPlayingNow.setText("Player: " + gm.getPlayingNow().getName());
+				lbCurrentPoints.setText("Score: " + gm.getPlayingNow().getScore());
+				
+				btnNewQuestion(event);
+				
+			} else {
+				
+				String header = "Game error";
+				String message = "This player already exists";
+				
+				showWarningDialogue(header, message);
+				
+				tfNewPlayerName.setText(null);
+			}
 			
 		} else {
 			

@@ -36,13 +36,14 @@ public class TimerThread extends Thread {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			
 			mili += 4;
 			
 			if(mili == 1000) {
 				
 				mili = 0;
 				sec += 1;
-				width += 4;
+				width = 5;
 
 				cGUI.changeProgressBar(width);
 				

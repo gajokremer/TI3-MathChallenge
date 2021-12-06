@@ -23,7 +23,7 @@
             <Font size="16.0" />
          </font>
       </Button>
-      <Label fx:id="lbTimer" alignment="CENTER" contentDisplay="CENTER" layoutX="323.0" layoutY="6.0" text="Timer" textAlignment="CENTER">
+      <Label fx:id="lbTimer" alignment="CENTER" contentDisplay="CENTER" layoutX="361.0" layoutY="6.0" text="60" textAlignment="CENTER">
          <font>
             <Font size="64.0" />
          </font>
@@ -77,6 +77,6 @@
          </font>
       </Button>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="35.0" layoutX="250.0" layoutY="86.0" stroke="BLACK" strokeType="INSIDE" width="300.0" />
-      <Rectangle fx:id="sqrLoadBar" arcHeight="5.0" arcWidth="5.0" fill="#4076b6" height="35.0" layoutX="250.0" layoutY="86.0" stroke="BLACK" strokeType="INSIDE" width="300.0" />
+      <Rectangle fx:id="sqrProgressBar" arcHeight="5.0" arcWidth="5.0" fill="#4076b6" height="35.0" layoutX="250.0" layoutY="86.0" stroke="BLACK" strokeType="INSIDE" width="300.0" />
    </children>
 </Pane>

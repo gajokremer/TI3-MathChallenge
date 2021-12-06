@@ -129,9 +129,6 @@ public class ControllerGUI {
 		Image logo = new Image("Math Challenge Logo.png");
 //		ivMainMenuLogo.setImage(logo);
 		ivMainMenuLogo2.setImage(logo);
-		
-//		tmThread.start();
-//		tmThread.join();
 	}
 	
 	@FXML
@@ -161,7 +158,7 @@ public class ControllerGUI {
 				
 				btnNewQuestion(event);
 
-//				tmThread.start();
+				tmThread.start();
 				
 			} else {
 				
@@ -170,9 +167,7 @@ public class ControllerGUI {
 				
 				showWarningDialogue(header, message);
 				
-//				tfNewPlayerName.setText(null);
-
-				start();
+				tfNewPlayerName.setText("");
 			}	
 			
 		} else {
@@ -182,9 +177,7 @@ public class ControllerGUI {
 			
 			showWarningDialogue(header, message);
 
-//			tfNewPlayerName.setText(null);
-
-			start();
+			tfNewPlayerName.setText("");
 		}
 	}
 	
@@ -288,10 +281,10 @@ public class ControllerGUI {
 	public void changeProgressBar(int width) {
 		
 //		System.out.println(sqrProgressBar.getWidth());
-		
-		sqrProgressBar.getWidth();
+//		
+//		sqrProgressBar.getWidth();
 
-//		sqrProgressBar.setWidth(sqrProgressBar.getWidth() + width);
+		sqrProgressBar.setWidth(sqrProgressBar.getWidth() - width);
 	}
 	
 	@FXML
@@ -443,7 +436,7 @@ public class ControllerGUI {
 				
 				System.out.println("Inside");
 				
-				gm.remove(p);
+//				gm.remove(p);
 
 				tfPlayerRank.setText("");
 				tfPlayerName.setText("");;
@@ -475,8 +468,6 @@ public class ControllerGUI {
 		}
 	}
 	
-	
-	
 	@FXML
 	void btnBack(ActionEvent event) throws IOException {
 		
@@ -490,9 +481,6 @@ public class ControllerGUI {
 		
 		gm.setPlayingNow(null);
 	}
-	
-	
-	
 	
 	public void showSuccessDialogue(String header, String message) {
 

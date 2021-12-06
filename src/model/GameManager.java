@@ -469,6 +469,7 @@ public class GameManager {
 				if(r.getRight() == null) {
 
 					r.setRight(p);
+					r.setLeaf(false);
 //					setTotalPlayers(getTotalPlayers() + 1);
 
 				} else {
@@ -481,6 +482,7 @@ public class GameManager {
 				if(r.getLeft() == null) {
 
 					r.setLeft(p);
+					r.setLeaf(false);
 //					setTotalPlayers(getTotalPlayers() + 1);
 
 				} else {
@@ -491,17 +493,18 @@ public class GameManager {
 		}
 	}
 	
-	public void remove(Player p) {
+	public void remove(Player p, Player prev) {
 
-		if(p.getName().equals(root.getName())) {
-			
-			System.out.println("-" + p.getName().equals(root.getName()));
-			
-			if(root.isLeaf()) {
-				
-				root = null;
-			}
-		}
+//		if(p.getName().equals(root.getName())) {
+//			
+//			System.out.println("-" + p.getName().equals(root.getName()));
+//			
+//			if(root.isLeaf()) {
+//				
+//				root = null;
+//			}
+//		}
+		
 	}
 	
 	public List<Player> orderedPlayerList() {

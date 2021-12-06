@@ -40,7 +40,7 @@ public class ControllerGUI {
 
 		gm = new GameManager();
 		tm = new Timer(10);
-		tmThread = new TimerThread(this);
+//		tmThread = new TimerThread(this);
 //		tmThread.setTm(tm);
 	}
 	
@@ -158,6 +158,7 @@ public class ControllerGUI {
 				
 				btnNewQuestion(event);
 
+				tmThread = new TimerThread(this);
 				tmThread.start();
 				
 			} else {
@@ -271,12 +272,19 @@ public class ControllerGUI {
 		}
 	}
 	
-	public void changeTimer() {
+	public void changeTimer() throws IOException {
 		
 		int newTime = Integer.parseInt(lbTimer.getText()) - 1;
 		
 		lbTimer.setText(String.valueOf(newTime));
+		
+		if(lbTimer.getText().equals("0")) {
+			
+			gm.addPlayer(gm.getPlayingNow());
+			btnScoreboard(new ActionEvent());
+		}
 	}
+	
 	
 	public void changeProgressBar(int width) {
 		

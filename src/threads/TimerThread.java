@@ -1,5 +1,7 @@
 package threads;
 
+import java.io.IOException;
+
 import javafx.application.Platform;
 import model.Timer;
 import ui.ControllerGUI;
@@ -24,7 +26,7 @@ public class TimerThread extends Thread {
 	@Override
 	public void run() {
 		
-		int sec = 0;
+		int sec = 10;
 		int mili = 0;
 		int width = 0;
 		boolean active = true;
@@ -42,7 +44,7 @@ public class TimerThread extends Thread {
 			if(mili == 1000) {
 				
 				mili = 0;
-				sec += 1;
+				sec--;
 				width = 5;
 
 				cGUI.changeProgressBar(width);
@@ -51,7 +53,11 @@ public class TimerThread extends Thread {
 					
 					public void run() {
 						
-						cGUI.changeTimer();
+						try {
+							cGUI.changeTimer();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 					}
 				});
 				
@@ -61,5 +67,7 @@ public class TimerThread extends Thread {
 				}
 			}
 		}
+		
+		sec = 0;
 	}
 }

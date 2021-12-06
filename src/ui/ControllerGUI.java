@@ -33,6 +33,7 @@ public class ControllerGUI {
 	
 	private GameManager gm;
 	private TimerThread tmThread;
+
 //	private Timer tm;
 	
 	public ControllerGUI() {
@@ -118,7 +119,7 @@ public class ControllerGUI {
     private ObservableList<Player> observableList;
 
 	@FXML
-	void start() throws IOException, InterruptedException {
+	void start() throws IOException, InterruptedException, ClassNotFoundException {
 
 		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("MainMenu.fxml"));
 		fxmlloader.setController(this);
@@ -128,6 +129,8 @@ public class ControllerGUI {
 		Image logo = new Image("Math Challenge Logo.png");
 //		ivMainMenuLogo.setImage(logo);
 		ivMainMenuLogo2.setImage(logo);
+		
+		gm.loadData();
 	}
 	
 	@FXML
@@ -324,6 +327,8 @@ public class ControllerGUI {
 			tfPlayerScore.setText(String.valueOf(gm.getPlayingNow().getScore()));
 			tfPlayerRank.setText(String.valueOf(gm.findPlayerPos(gm.getPlayingNow().getName())));
 		}
+		
+		gm.saveData();
 	}
 	
 	private void initializePodiumTableView() {

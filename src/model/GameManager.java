@@ -1,5 +1,12 @@
 package model;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -10,6 +17,8 @@ public class GameManager {
 	private Player playingNow;
 	private String currentQuestion;
 	private List<Player> players;
+	
+	public String PLAYER_DATA = "data/PlayerTree.bin";
 	
 	public GameManager() {
 		players = new ArrayList<>();
@@ -501,102 +510,166 @@ public class GameManager {
 	
 	public void removePlayer(Player p) {
 
-//		Player prev = null;
-//		
-//		remove(p, root, prev);
+		Player prev = null;
 		
-		removeCopy(root, p);
+		remove(p, root, prev);
+		
+//		removeCopy1(root, p);
 	}
 	
 	private void remove(Player p, Player current, Player prev) {
 
-		if(current.isLeaf()) {
-			
-			if(prev == null) {
-				
-				if(current == root && root == p) {
-					
-					root = null;
-				}
-				
-			} else {
+//		if(current.isLeaf()) {
+//			
+//			if(prev == null) {
+//				
+//				if(current == root && root == p) {
+//					
+//					root = null;
+//				}
+//				
+//			} else {
+//
+//				if(prev.getLeft() == current && current == p) {
+//					
+//					prev.setLeft(null);
+//					
+//				} else if(prev.getRight() == current && current == p) {
+//					
+//					prev.setRight(null);
+//				}
+//			}
+//			
+//		} else {
+//			
+//			remove(p, current.getLeft(), current);
+//			remove(p, current.getRight(), current);
+//		}
+	}
 
-				if(prev.getLeft() == current && current == p) {
-					
-					prev.setLeft(null);
-					
-				} else if(prev.getRight() == current && current == p) {
-					
-					prev.setRight(null);
-				}
-			}
-			
-		} else {
-			
-			remove(p, current.getLeft(), current);
-			remove(p, current.getRight(), current);
-		}
-	}
+//	private Player removeCopy1(Player root, Player p) {
+//
+//		if (root == null) {
+//
+//			return null;
+//		}
+//
+//		if(root.getScore() > p.getScore()) {
+//			
+//			root.setLeft(removeCopy1(root.getLeft(), p));
+//			
+//		} else if(root.getScore() <= p.getScore()) {
+//			
+//			root.setRight(removeCopy1(root.getRight(), p));
+//
+//		} else {
+//			// if nodeToBeDeleted have both children
+////			if (root.left != null && root.right != null) {
+//			if(root.getLeft() != null && root.getRight() != null) {
+//				
+//				Player temp = root;
+//				// Finding minimum element from right
+//				Player minNodeForRight = minimumElement(temp.getRight());
+//				// Replacing current node with minimum node from right subtree
+//				root.setScore(minNodeForRight.getScore());
+//				// Deleting minimum node from right now
+//				root.setRight(removeCopy1(root.getRight(), minNodeForRight));
+//			}
+//			// if nodeToBeDeleted has only left child
+//			else if(root.getLeft() != null) {
+//				
+//				root = root.getLeft();
+//			}
+//			// if nodeToBeDeleted has only right child
+//			else if(root.getRight() != null) {
+//				
+//				root = root.getRight();
+//			}
+//			// if nodeToBeDeleted do not have child (Leaf node)
+//			else {
+//				
+//				root = null;
+//			}
+//		}
+//		return root;
+//	}
+//	
+//	public Player minimumElement(Player root) {
+//		
+//		if (root.getLeft() == null)
+//			
+//			return root;
+//		
+//		else {
+//	
+//			return minimumElement(root.getLeft());
+//		}
+//	}
 	
-	public Player removeCopy(Player root, Player p) {
-		
-		if(root == null) {
-			
-			return root;
-		}
-		
-		if(p.getScore() > root.getScore()){ //move right
-			
-			root.setRight(removeCopy(root.getRight(), p));
-			
-		} else if(p.getScore() <= root.getScore()) { //move left
-			
-			root.setLeft(removeCopy(root.getLeft(), p));
-			
-		} else { //oh yes, we finally found the target
-			
-			if(root.getLeft() == null && root.getRight() == null) { //hmm, its a leaf node; easy peasy
-				
-				root = null;
-				
-			} else if(root.getRight() != null) { // oh, it has a right child, don't make it an orphan or is it old enough to become a parent ? lets find out
-			
-				root.setScore(successor(root));
-				root.setRight(removeCopy(root.getRight(), p));
-			
-			} else { //oh it seems that I do not have a worthy successor, fallback, fallback ...
-			
-				root.setScore(predecessor(root));
-				root.setLeft(removeCopy(root.getLeft(), p));
-			}
-		}
-		
-		return root;
-	}
-	
-	private int successor(Player root){
-
-		root = root.getRight();
-
-		while(root.getLeft() != null){
-			
-			root = root.getLeft();
-		}
-		
-		return root.getScore();
-	}
-	
-	private int predecessor(Player root){
-		
-		root = root.getLeft();
-		
-		while(root.getRight() != null){
-			
-			root = root.getRight();
-		}
-		
-		return root.getScore();
-	}
+//	public Player removeCopy(Player current, Player p) {
+//		
+//		System.out.println("Current: " + current);
+//		
+//		if(current == null) {
+//
+//			return current;
+//
+//		} else {
+//
+//			if(p.getScore() > current.getScore()){ //move right
+//
+//				current.setRight(removeCopy(current.getRight(), p));
+//
+//			} else if(p.getScore() <= current.getScore()) { //move left
+//
+//				current.setLeft(removeCopy(current.getLeft(), p));
+//
+//			} else { //oh yes, we finally found the target
+//
+////				if(current.getLeft() == null && current.getRight() == null) { //hmm, its a leaf node; easy peasy
+//				if(current.isLeaf()) { //hmm, its a leaf node; easy peasy
+//
+//					current = null;
+//
+//				} else if(current.getRight() != null) { // oh, it has a right child, don't make it an orphan or is it old enough to become a parent ? lets find out
+//
+//					current = (successor(current));
+//					current.setRight(removeCopy(current.getRight(), p));
+//
+//				} else { //oh it seems that I do not have a worthy successor, fallback, fallback ...
+//
+//					current = (predecessor(current));
+//					current.setLeft(removeCopy(current.getLeft(), p));
+//				}
+//			}
+//		}
+//		
+//		return current;
+//	}
+//	
+//	private Player successor(Player root){
+//
+//		root = root.getRight();
+//
+//		while(root.getLeft() != null){
+//			
+//			root = root.getLeft();
+//		}
+//		
+//		return root;
+//	}
+//	
+//	private Player predecessor(Player root){
+//		
+//		root = root.getLeft();
+//		
+//		while(root.getRight() != null){
+//			
+//			root = root.getRight();
+//		}
+//		
+//		return root;
+//	}
 
 	public List<Player> orderedPlayerList() {
 
@@ -712,5 +785,29 @@ public class GameManager {
 		}
 		
 		return score;
+	}
+	
+	public void saveData() throws FileNotFoundException, IOException {
+
+		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(PLAYER_DATA));
+		oos.writeObject(root);
+		oos.close();
+	}
+
+	public boolean loadData() throws FileNotFoundException, IOException, ClassNotFoundException {
+
+		File f = new File(PLAYER_DATA);
+
+		boolean isLoaded = false;
+
+		if(f.exists()) {
+
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
+			root = (Player) ois.readObject();
+			ois.close();
+			isLoaded = true;
+		}
+
+		return isLoaded;
 	}
 }

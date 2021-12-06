@@ -443,7 +443,7 @@ public class ControllerGUI {
 
 			Player p = gm.findPlayer(tfPlayerToFind.getText());
 			
-			System.out.println("Exists: " + gm.playerExists(p));
+			System.out.println("\nExists: " + gm.playerExists(p));
 			System.out.println("Player to remove: " + p);
 			
 			if(gm.playerExists(p)) {

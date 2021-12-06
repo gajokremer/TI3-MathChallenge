@@ -512,12 +512,12 @@ public class GameManager {
 
 		Player prev = null;
 		
-		remove(p, root, prev);
+		remove(p, root);
 		
-//		removeCopy1(root, p);
+//		removeCopy(root, p);
 	}
 	
-	private void remove(Player p, Player current, Player prev) {
+	private Player remove(Player p, Player current) {
 
 //		if(current.isLeaf()) {
 //			
@@ -545,131 +545,122 @@ public class GameManager {
 //			remove(p, current.getLeft(), current);
 //			remove(p, current.getRight(), current);
 //		}
+		
+		if(current == null) {
+			
+			return current;
+		
+		} else {
+			
+			if(current.getName().equals(p.getName())) {
+				
+				if(current.isLeaf()) {
+					
+					current = null;
+					
+				} else if(current.getRight() != null) {
+					
+					current = successor(current);
+					current.setRight(remove(p, current.getRight()));
+					
+				} else if(current.getLeft() != null) {
+					
+					current = predecessor(current);
+					current.setLeft(remove(p, current.getLeft()));
+				}
+				
+			} else {
+				
+				if(p.getScore() > current.getScore()) {
+					
+					current.setRight(remove(p, current.getRight()));
+					
+				} else if(p.getScore() <= current.getScore()) {
+					
+					current.setLeft(remove(p, current.getLeft()));
+				}
+			}
+		}
+		
+		return current;
 	}
 
-//	private Player removeCopy1(Player root, Player p) {
-//
-//		if (root == null) {
-//
-//			return null;
-//		}
-//
-//		if(root.getScore() > p.getScore()) {
+	public Player removeCopy(Player current, Player p) {
+
+		int key = p.getScore();
+
+		if(current == null) {
+			
+			return current;
+			
+		} 
+//		else if(current == root) {
 //			
-//			root.setLeft(removeCopy1(root.getLeft(), p));
-//			
-//		} else if(root.getScore() <= p.getScore()) {
-//			
-//			root.setRight(removeCopy1(root.getRight(), p));
-//
-//		} else {
-//			// if nodeToBeDeleted have both children
-////			if (root.left != null && root.right != null) {
-//			if(root.getLeft() != null && root.getRight() != null) {
-//				
-//				Player temp = root;
-//				// Finding minimum element from right
-//				Player minNodeForRight = minimumElement(temp.getRight());
-//				// Replacing current node with minimum node from right subtree
-//				root.setScore(minNodeForRight.getScore());
-//				// Deleting minimum node from right now
-//				root.setRight(removeCopy1(root.getRight(), minNodeForRight));
-//			}
-//			// if nodeToBeDeleted has only left child
-//			else if(root.getLeft() != null) {
-//				
-//				root = root.getLeft();
-//			}
-//			// if nodeToBeDeleted has only right child
-//			else if(root.getRight() != null) {
-//				
-//				root = root.getRight();
-//			}
-//			// if nodeToBeDeleted do not have child (Leaf node)
-//			else {
-//				
-//				root = null;
-//			}
+//			root = null;
 //		}
-//		return root;
-//	}
-//	
-//	public Player minimumElement(Player root) {
-//		
-//		if (root.getLeft() == null)
-//			
-//			return root;
-//		
-//		else {
-//	
-//			return minimumElement(root.getLeft());
-//		}
-//	}
-	
-//	public Player removeCopy(Player current, Player p) {
-//		
-//		System.out.println("Current: " + current);
-//		
-//		if(current == null) {
-//
-//			return current;
-//
-//		} else {
-//
-//			if(p.getScore() > current.getScore()){ //move right
-//
-//				current.setRight(removeCopy(current.getRight(), p));
-//
-//			} else if(p.getScore() <= current.getScore()) { //move left
-//
-//				current.setLeft(removeCopy(current.getLeft(), p));
-//
-//			} else { //oh yes, we finally found the target
-//
-////				if(current.getLeft() == null && current.getRight() == null) { //hmm, its a leaf node; easy peasy
-//				if(current.isLeaf()) { //hmm, its a leaf node; easy peasy
-//
-//					current = null;
-//
-//				} else if(current.getRight() != null) { // oh, it has a right child, don't make it an orphan or is it old enough to become a parent ? lets find out
-//
-//					current = (successor(current));
-//					current.setRight(removeCopy(current.getRight(), p));
-//
-//				} else { //oh it seems that I do not have a worthy successor, fallback, fallback ...
-//
-//					current = (predecessor(current));
-//					current.setLeft(removeCopy(current.getLeft(), p));
-//				}
-//			}
-//		}
-//		
-//		return current;
-//	}
-//	
-//	private Player successor(Player root){
-//
-//		root = root.getRight();
-//
-//		while(root.getLeft() != null){
-//			
-//			root = root.getLeft();
-//		}
-//		
-//		return root;
-//	}
-//	
-//	private Player predecessor(Player root){
-//		
-//		root = root.getLeft();
-//		
-//		while(root.getRight() != null){
-//			
-//			root = root.getRight();
-//		}
-//		
-//		return root;
-//	}
+		
+		if(key > current.getScore()) { //move right
+			
+//			current.right = removeCopy(current.right, key);
+			current.setRight(removeCopy(current.getRight(), p));
+			
+		} else if(key <= current.getScore()) { //move left
+			
+//			current.left = removeCopy(current.left, key);
+			current.setLeft(removeCopy(current.getLeft(), p));
+			
+		} else { //oh yes, we finally found the target
+			
+			if(current.getName().equals(p.getName())) {
+				
+				System.out.println("Same Name");
+				
+//			if(current.left == null && current.right == null){ //hmm, its a leaf node; easy peasy
+				if(current.isLeaf()) { //hmm, its a leaf node; easy peasy
+					
+					current = null;
+					
+				} else if(current.getRight() != null) { // oh, it has a right child, don't make it an orphan or is it old enough to become a parent ? lets find out
+					
+					current = successor(current); // my worthy successor
+//				current.right = removeCopy(current.right, current.val);
+					current.setRight(removeCopy(current.getRight(), p)); 
+					
+				} else { //oh it seems that I do not have a worthy successor, fallback, fallback ...
+					
+					current = predecessor(current);
+//				current.left = removeCopy(current.left, current.val);
+					current.setLeft(removeCopy(current.getLeft(), p)); 
+				}
+			}
+		}
+		
+		return current;
+	}
+
+	private Player successor(Player root){
+		
+		root = root.getRight();
+		
+		while(root.getLeft() != null){
+			
+			root = root.getLeft();
+		}
+		
+		return root;
+	}
+
+	private Player predecessor(Player root){
+		
+		root = root.getLeft();
+		
+		while(root.getRight() != null){
+			
+			root = root.getRight();
+		}
+		
+		return root;
+	}
 
 	public List<Player> orderedPlayerList() {
 

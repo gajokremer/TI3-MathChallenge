@@ -461,8 +461,14 @@ public class GameManager {
 			System.out.println("Root: " + r);
 			System.out.println("Player: " + p);
 			
-			int rScore = r.getScore();
-			int pScore = p.getScore();
+			int rScore = 0;
+			int pScore = 0;
+			
+			if(r != null && p != null) {
+				
+				rScore = r.getScore();
+				pScore = p.getScore();
+			}
 
 			if(pScore > rScore) {
 
@@ -493,7 +499,7 @@ public class GameManager {
 		}
 	}
 	
-	public void remove(Player p, Player prev) {
+	public void removePlayer(Player p) {
 
 //		if(p.getName().equals(root.getName())) {
 //			
@@ -505,6 +511,52 @@ public class GameManager {
 //			}
 //		}
 		
+		Player prev = null;
+		
+		remove(p, root, prev);
+	}
+	
+	private void remove(Player p, Player current, Player prev) {
+
+//		if(prev == null) {
+//			
+//			if(current == root) {
+//				
+//				if(root == p) {
+//					
+//					if(root.isLeaf()) {
+//						
+//						root = null;
+//						
+//					} else {
+//						
+//						
+//					}
+//				}
+//			}
+//			
+//		} else {
+//			
+//			if(current.isLeaf()) {
+//				
+//				current = null;
+//			}
+//		}
+		
+		if(current.isLeaf()) {
+			
+			if(prev == null) {
+				
+				if(current == root && root == p) {
+					
+					root = null;
+				}
+				
+			} else {
+				
+				
+			}
+		}
 	}
 	
 	public List<Player> orderedPlayerList() {
@@ -576,6 +628,21 @@ public class GameManager {
 			
 			System.out.print(array[i] + " ");
 		}
+	}
+	
+	public Player findPlayer(String name) {
+		
+		Player p = null;
+		
+		for(int i = 0; i < players.size(); i++) {
+			
+			if(players.get(i).getName().equals(name)) {
+				
+				p = players.get(i);
+			}
+		}
+		
+		return p;
 	}
 	
 	public int findPlayerPos(String name) {

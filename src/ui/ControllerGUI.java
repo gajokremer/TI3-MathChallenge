@@ -27,19 +27,18 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import model.GameManager;
 import model.Player;
-import model.Timer;
 import threads.TimerThread;
 
 public class ControllerGUI {
 	
 	private GameManager gm;
 	private TimerThread tmThread;
-	private Timer tm;
+//	private Timer tm;
 	
 	public ControllerGUI() {
 
 		gm = new GameManager();
-		tm = new Timer(10);
+//		tm = new Timer(10);
 //		tmThread = new TimerThread(this);
 //		tmThread.setTm(tm);
 	}
@@ -298,6 +297,7 @@ public class ControllerGUI {
 	@FXML
 	void btnFinish(ActionEvent event) throws IOException {
 		
+		tmThread.stop();
 		gm.addPlayer(gm.getPlayingNow());
 		
 //		System.out.println("\nPrint from root: \n" + gm.print(gm.getRoot()));
@@ -435,20 +435,22 @@ public class ControllerGUI {
 	void btnRemove(ActionEvent event) throws IOException {
 
 		if(!tfPlayerToFind.getText().trim().isEmpty()) {
-			
-			Player p =  new Player(tfPlayerToFind.getText(), 0);
+
+			Player p = gm.findPlayer(tfPlayerToFind.getText());
 			
 			System.out.println("Exists: " + gm.playerExists(p));
+			System.out.println("Player to remove: " + p);
 			
 			if(gm.playerExists(p)) {
 				
 				System.out.println("Inside");
 				
-//				gm.remove(p);
+				gm.removePlayer(p);
 
+				tfPlayerToFind.setText("");;
 				tfPlayerRank.setText("");
-				tfPlayerName.setText("");;
 				tfPlayerScore.setText("");
+				tfPlayerName.setText("");
 
 				if(tfPlayerToFind.getText().equals(p.getName())) {
 					

@@ -3,7 +3,6 @@ package threads;
 import java.io.IOException;
 
 import javafx.application.Platform;
-import model.Timer;
 import ui.ControllerGUI;
 
 public class TimerThread extends Thread {
@@ -26,7 +25,7 @@ public class TimerThread extends Thread {
 	@Override
 	public void run() {
 		
-		int sec = 10;
+		int sec = 60;
 		int mili = 0;
 		int width = 0;
 		boolean active = true;

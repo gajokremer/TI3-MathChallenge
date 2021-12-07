@@ -141,7 +141,7 @@ public class ControllerGUI {
 			
 			Player p = new Player(tfNewPlayerName.getText(), 0);
 			
-			//System.out.println("Exists: " + gm.playerExists(p));
+			System.out.println("Exists: " + gm.playerExists(p));
 			
 			if(!gm.playerExists(p)) {
 				
@@ -188,7 +188,7 @@ public class ControllerGUI {
 	@FXML
 	void btnNewQuestion(ActionEvent event) {
 		
-//		//System.out.println("Aqui 2");;
+//		System.out.println("Aqui 2");;
 		
 		int[] answers = gm.newProblem();
 		
@@ -196,7 +196,7 @@ public class ControllerGUI {
 		
 		tfProblem.setText(question);
 		
-//		//System.out.print("\nGUI: ");
+//		System.out.print("\nGUI: ");
 //		gm.printArray(answers);
 		
 		rbAnswer1.setSelected(false);
@@ -249,7 +249,7 @@ public class ControllerGUI {
 		if(hasAnswer) {
 			
 			boolean correct = gm.verifyAnswer(answer);
-			//System.out.println("\nCorrect: " + correct);
+			System.out.println("\nCorrect: " + correct);
 			
 			if(correct) {
 				
@@ -269,7 +269,7 @@ public class ControllerGUI {
 				}
 			}
 			
-			//System.out.println("Current score: " + gm.getPlayingNow().getScore());
+			System.out.println("Current score: " + gm.getPlayingNow().getScore());
 			
 			btnNewQuestion(event);
 		}
@@ -291,7 +291,7 @@ public class ControllerGUI {
 	
 	public void changeProgressBar(int width) {
 		
-//		//System.out.println(sqrProgressBar.getWidth());
+//		System.out.println(sqrProgressBar.getWidth());
 //		
 //		sqrProgressBar.getWidth();
 
@@ -304,10 +304,10 @@ public class ControllerGUI {
 		tmThread.stop();
 		gm.addPlayer(gm.getPlayingNow());
 		
-//		//System.out.println("\nPrint from root: \n" + gm.print(gm.getRoot()));
+//		System.out.println("\nPrint from root: \n" + gm.print(gm.getRoot()));
 //		
 //		List<Player> players = gm.orderedPlayerList();
-//		//System.out.println("\nOrdered players: " + gm.printOrdered(players));
+//		System.out.println("\nOrdered players: " + gm.printOrdered(players));
 
 		btnScoreboard(event);
 	}
@@ -336,10 +336,10 @@ public class ControllerGUI {
 		
 		gm.saveData();
 		
-		//System.out.println("\nPrint from root: \n" + gm.print(gm.getRoot()));
+		System.out.println("\nPrint from root: \n" + gm.print(gm.getRoot()));
 		
 		List<Player> players = gm.orderedPlayerList();
-		//System.out.println("\nOrdered players: " + gm.printOrdered(players));
+		System.out.println("\nOrdered players: " + gm.printOrdered(players));
 		
 //		List<Player> podium = new ArrayList<Player>();
 		
@@ -446,12 +446,14 @@ public class ControllerGUI {
 
 			Player p = gm.findPlayer(tfPlayerToFind.getText());
 			
-			//System.out.println("\nExists: " + gm.playerExists(p));
-			//System.out.println("Player to remove: " + p + "\n");
+			System.out.println("\nExists: " + gm.playerExists(p));
+			System.out.println("Player to remove: " + p + "\n");
 			
 			if(gm.playerExists(p)) {
 				
 				gm.removePlayer(p);
+				
+				System.out.println("\n=New Root: " + gm.getRoot());
 
 				tfPlayerToFind.setText("");;
 				tfPlayerRank.setText("");

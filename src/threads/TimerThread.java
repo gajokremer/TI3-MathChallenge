@@ -7,21 +7,12 @@ import ui.ControllerGUI;
 
 public class TimerThread extends Thread {
 
-//	private Timer tm;
 	private ControllerGUI cGUI;
 	
 	public TimerThread(ControllerGUI cGUI) {
 		this.cGUI = cGUI;
 	}
 	
-//	public Timer getTm() {
-//		return tm;
-//	}
-//
-//	public void setTm(Timer tm) {
-//		this.tm = tm;
-//	}
-
 	@Override
 	public void run() {
 		

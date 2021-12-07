@@ -71,11 +71,6 @@
             <Font size="36.0" />
          </font>
       </Button>
-      <Button layoutX="588.0" layoutY="480.0" mnemonicParsing="false" onAction="#btnFinish" text="Finish">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Button>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="35.0" layoutX="250.0" layoutY="86.0" stroke="BLACK" strokeType="INSIDE" width="300.0" />
       <Rectangle fx:id="sqrProgressBar" arcHeight="5.0" arcWidth="5.0" fill="#4076b6" height="35.0" layoutX="250.0" layoutY="86.0" stroke="BLACK" strokeType="INSIDE" width="300.0" />
    </children>

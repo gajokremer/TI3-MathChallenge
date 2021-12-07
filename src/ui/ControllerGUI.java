@@ -35,14 +35,9 @@ public class ControllerGUI {
 	private GameManager gm;
 	private TimerThread tmThread;
 
-//	private Timer tm;
-	
 	public ControllerGUI() {
 
 		gm = new GameManager();
-//		tm = new Timer(10);
-//		tmThread = new TimerThread(this);
-//		tmThread.setTm(tm);
 	}
 	
 	@FXML
@@ -88,9 +83,6 @@ public class ControllerGUI {
     private TableView<Player> tvPodium;
     
     @FXML
-    private TableColumn<Player, String> tcRank;
-    
-    @FXML
     private TableColumn<Player, String> tcName;
 
     @FXML
@@ -128,7 +120,6 @@ public class ControllerGUI {
 		mainPane.getChildren().setAll(menu);
 		
 		Image logo = new Image("Math Challenge Logo.png");
-//		ivMainMenuLogo.setImage(logo);
 		ivMainMenuLogo2.setImage(logo);
 		
 		gm.loadData();
@@ -141,8 +132,6 @@ public class ControllerGUI {
 			
 			Player p = new Player(tfNewPlayerName.getText(), 0);
 			
-			System.out.println("Exists: " + gm.playerExists(p));
-			
 			if(!gm.playerExists(p)) {
 				
 				FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("Questions.fxml"));
@@ -153,7 +142,6 @@ public class ControllerGUI {
 				Image logo = new Image("Math Challenge Logo.png");
 				ivMainMenuLogo.setImage(logo);
 				
-//			Player p = new Player(tfNewPlayerName.getText(), 0);
 				gm.setPlayingNow(p);
 				
 				lbPlayingNow.setText("Player: " + gm.getPlayingNow().getName());
@@ -188,16 +176,11 @@ public class ControllerGUI {
 	@FXML
 	void btnNewQuestion(ActionEvent event) {
 		
-//		System.out.println("Aqui 2");;
-		
 		int[] answers = gm.newProblem();
 		
 		String question = gm.getCurrentQuestion();
 		
 		tfProblem.setText(question);
-		
-//		System.out.print("\nGUI: ");
-//		gm.printArray(answers);
 		
 		rbAnswer1.setSelected(false);
 		rbAnswer2.setSelected(false);
@@ -249,7 +232,6 @@ public class ControllerGUI {
 		if(hasAnswer) {
 			
 			boolean correct = gm.verifyAnswer(answer);
-			System.out.println("\nCorrect: " + correct);
 			
 			if(correct) {
 				
@@ -268,8 +250,6 @@ public class ControllerGUI {
 					gm.getPlayingNow().setScore(0);
 				}
 			}
-			
-			System.out.println("Current score: " + gm.getPlayingNow().getScore());
 			
 			btnNewQuestion(event);
 		}
@@ -291,25 +271,7 @@ public class ControllerGUI {
 	
 	public void changeProgressBar(int width) {
 		
-//		System.out.println(sqrProgressBar.getWidth());
-//		
-//		sqrProgressBar.getWidth();
-
 		sqrProgressBar.setWidth(sqrProgressBar.getWidth() - width);
-	}
-	
-	@FXML
-	void btnFinish(ActionEvent event) throws IOException {
-		
-		tmThread.stop();
-		gm.addPlayer(gm.getPlayingNow());
-		
-//		System.out.println("\nPrint from root: \n" + gm.print(gm.getRoot()));
-//		
-//		List<Player> players = gm.orderedPlayerList();
-//		System.out.println("\nOrdered players: " + gm.printOrdered(players));
-
-		btnScoreboard(event);
 	}
 	
 	@FXML
@@ -328,20 +290,13 @@ public class ControllerGUI {
 			tfPlayerScore.setText(String.valueOf(gm.getPlayingNow().getScore()));
 			tfPlayerRank.setText(String.valueOf(gm.findPlayerPos(gm.getPlayingNow().getName())));
 		}
-		
-//		gm.saveData();
 	}
 	
 	private void initializePodiumTableView() throws FileNotFoundException, IOException {
 		
 		gm.saveData();
 		
-		System.out.println("\nPrint from root: \n" + gm.print(gm.getRoot()));
-		
 		List<Player> players = gm.orderedPlayerList();
-		System.out.println("\nOrdered players: " + gm.printOrdered(players));
-		
-//		List<Player> podium = new ArrayList<Player>();
 		
 		Player[] podium = new Player[5];
 		
@@ -367,7 +322,6 @@ public class ControllerGUI {
 		observableList = FXCollections.observableArrayList(podium);
 
 		tvPodium.setItems(observableList);
-//		tcRank.setCellValueFactory(new PropertyValueFactory<Player, String>(String.valueOf(gm.findPlayerPos("name"))));   
 		tcName.setCellValueFactory(new PropertyValueFactory<Player, String>("name"));   
 		tcScore.setCellValueFactory(new PropertyValueFactory<Player, String>("score"));
 	}
@@ -446,15 +400,23 @@ public class ControllerGUI {
 
 			Player p = gm.findPlayer(tfPlayerToFind.getText());
 			
-			System.out.println("\nExists: " + gm.playerExists(p));
-			System.out.println("Player to remove: " + p + "\n");
-			
 			if(gm.playerExists(p)) {
 				
-				gm.removePlayer(p);
+				if(gm.removePlayer(p)) {
+					
+					String header = "Remove successful";
+					String message = "Player has beeen removed successfully";
+					
+					showSuccessDialogue(header, message);
+					
+				} else {
+					
+					String header = "Remove unsuccessful";
+					String message = "Player couldn't be removed";
+					
+					showWarningDialogue(header, message);
+				}
 				
-				System.out.println("\n=New Root: " + gm.getRoot());
-
 				tfPlayerToFind.setText("");;
 				tfPlayerRank.setText("");
 				tfPlayerScore.setText("");
@@ -486,8 +448,14 @@ public class ControllerGUI {
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	@FXML
 	void btnBack(ActionEvent event) throws IOException {
+		
+		if(tmThread.isAlive()) {
+			
+			tmThread.stop();
+		}
 		
 		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("MainMenu.fxml"));
 		fxmlloader.setController(this);

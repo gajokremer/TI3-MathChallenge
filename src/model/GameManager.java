@@ -93,10 +93,6 @@ public class GameManager {
 		int type = generateType();
 		
 		int[] answers = generateProblem(type, true);
-//		System.out.println("\nAnswers: " + answers);
-
-//		System.out.print("\n\nBefore GUI: ");
-//		printArray(answers);
 		
 		return answers;
 	}
@@ -104,15 +100,12 @@ public class GameManager {
 	private int generateType() {
 		
 		int type = 1 + (int) (Math.random() * ((4 - 1) + 1));
-//		int type = 4;
 		
 		return type;
 	}
 
 	private int[] generateProblem(int type, boolean valid) {
 
-//		int[] answers = null;
-		
 		valid = true;
 		
 		if(valid) {
@@ -120,39 +113,27 @@ public class GameManager {
 			int[] values = generateValues();
 			int a = values[0];
 			int b = values[1];
-//			int a = 100;
-//			int b = 50;
-			
-//			System.out.println("a: " + a);
-//			System.out.println("b: " + b);
-//			System.out.println("type: " + type + "\n");
-			
+
 			if(type != 4) {
 				
 				generateQuestion(a, b, type);
-//				answers = generateAnswer(a, b, type);
 				return generateAnswer(a, b, type);
 				
 			} else if(type == 4) {
 				
 				valid = isValid(a, b);
-//				System.out.println("Valid: " + valid);
 				
 				if(valid) {
 					
 					generateQuestion(a, b, type);
-//					answers = generateAnswer(a, b, type);
 					return generateAnswer(a, b, type);
 					
 				} else {
 					
-//					answers = generateProblem(type, valid);
 					return generateProblem(type, valid);
 				}
 			}
 		}
-		
-//		System.out.println("-Answers: " + answers);
 		
 		return null;
 	}
@@ -177,28 +158,23 @@ public class GameManager {
 		switch(type) {
 		
 		case 1:
-//			result = a + " + " + b;
 			result = sumEquation(a, b);
 			break;		
 			
 		case 2:
-//			result = a + " - " + b;
 			result = subEquation(a, b);
 			break;
 		
 		case 3:
-//			result = a + " * " + b;
 			result = multEquation(a, b);
 			break;
 
 		case 4:
-//			result = a + " / " + b;
 			result = divEquation(a, b);
 			break;
 		}
 		
 		setCurrentQuestion(result);
-//		System.out.println("Equation: " + result);
 	}
 	
 	private boolean isValid(int a, int b) {
@@ -307,45 +283,32 @@ public class GameManager {
 			
 			lower = 0;
 		}
-//		
-//		System.out.println("Correct: " + correct);
-//		System.out.println("Upper: " + upper);
-//		System.out.println("Lower: " + lower + "\n");
 		
 		int wrong1, wrong2, wrong3;
 		
 		
 		wrong1 = lower + (int) (Math.random() * ((upper - lower) + 1));
-//		System.out.println("Wrong1: " + wrong1);
 		
 		while(wrong1 == correct) {
 			
 			wrong1 = lower + (int) (Math.random() * ((upper - lower) + 1));
-//			System.out.println("New Wrong1: " + wrong1);
 		}
 		
 		wrong2 = lower + (int) (Math.random() * ((upper - lower) + 1));
-//		System.out.println("Wrong2: " + wrong2);
 		
 		while(wrong2 == correct || wrong2 == wrong1) {
 			
 			wrong2 = lower + (int) (Math.random() * ((upper - lower) + 1));
-//			System.out.println("New Wrong2: " + wrong2);
 		}
 		
 		wrong3 = lower + (int) (Math.random() * ((upper - lower) + 1));
-//		System.out.println("Wrong3: " + wrong3);
 		
 		while(wrong3 == correct || wrong3 == wrong1 || wrong3 == wrong2) {
 			
 			wrong3 = lower + (int) (Math.random() * ((upper - lower) + 1));
-//			System.out.println("New Wrong3: " + wrong3);
 		}
 		
 		int[] answers = {correct, wrong1, wrong2, wrong3};
-		
-//		System.out.print("Before: ");
-//		printArray(answers);
 		
 		Random rand = new Random();
 		
@@ -356,12 +319,6 @@ public class GameManager {
 			answers[randomIndex] = answers[i];
 			answers[i] = temp;
 		}
-		
-//		System.out.println();
-//		System.out.print("Random: ");
-//		printArray(answers);
-		
-//		System.out.println("\n\nAnswers: " + answers);
 		
 		return answers;
 	}
@@ -413,8 +370,6 @@ public class GameManager {
 		
 		String[] values = currentQuestion.split(" ");
 		
-		printArray(values);
-		
 		int a = Integer.parseInt(values[0]);
 		int b = Integer.parseInt(values[2]);
 		
@@ -451,11 +406,7 @@ public class GameManager {
 	
 	public void addPlayer(Player p) {
 
-//		Player p = new Player(name, phone, address, email);
-		
 		add(p, root);
-		
-		System.out.println("\nTrue Root: " + root);
 	}
 	
 	private void add(Player p, Player r) {
@@ -463,12 +414,8 @@ public class GameManager {
 		if(root == null) {
 
 			root = p;
-//			setTotalPlayers(getTotalPlayers() + 1);
 
 		} else {
-			
-			System.out.println("Root: " + r);
-			System.out.println("Player: " + p);
 			
 			int rScore = 0;
 			int pScore = 0;
@@ -485,7 +432,6 @@ public class GameManager {
 
 					r.setRight(p);
 					r.setLeaf(false);
-//					setTotalPlayers(getTotalPlayers() + 1);
 
 				} else {
 
@@ -498,7 +444,6 @@ public class GameManager {
 
 					r.setLeft(p);
 					r.setLeaf(false);
-//					setTotalPlayers(getTotalPlayers() + 1);
 
 				} else {
 
@@ -510,8 +455,6 @@ public class GameManager {
 	
 	public boolean removePlayer(Player p) {
 
-//		Player prev = null;
-		
 		if(remove(p, root) == p) {
 			
 			return true;
@@ -524,11 +467,8 @@ public class GameManager {
 	
 	private Player remove(Player p, Player current) {
 
-		System.out.println("+Current: " + current);
-
 		if(current == null) {
 
-			System.out.println("++Current: " + current);
 			return current;
 
 		} else {
@@ -538,39 +478,24 @@ public class GameManager {
 				return removeRoot(p, root);
 			} 
 			
-			System.out.println("=Is it?: " + current.getName().equals(p.getName()));
-			
 			if(current.getName().equals(p.getName())) {
-				
-				System.out.println("Is Leaf: " + current.isLeaf());
 				
 				if(current.isLeaf()) { //FINE
 					
-					System.out.println("---Current: " + current);
 					current = null;
 					
 				} else if(current.getRight() != null && current.getLeft() != null) {
-					
-//					Player aux = current.getLeft();
-//					current = successor(current);
-					System.out.println("--Current: " + current);
-//					current.setRight(remove(p, current.getRight()));
-//					current.setLeft(aux);
-//					current.setLeaf(true);
 					
 					current = changePositions(current, successor(current));
 					
 				} else if(current.getRight() != null) {
 					
 					current = successor(current);
-					System.out.println("-Current: " + current);
 					current.setRight(remove(p, current.getRight()));
 					
 				} else if(current.getLeft() != null) {
 					
-//					current = predecessor(current);
 					current = predecessor(current);
-					System.out.println("Current: " + current);
 					current.setLeft(remove(p, current.getLeft()));
 				}
 				
@@ -578,12 +503,10 @@ public class GameManager {
 				
 				if(p.getScore() > current.getScore()) {
 					
-					System.out.println("Take right");;
 					current.setRight(remove(p, current.getRight()));
 					
 				} else if(p.getScore() <= current.getScore()) {
 					
-					System.out.println("Take left");;
 					current.setLeft(remove(p, current.getLeft()));
 				}
 			}
@@ -595,25 +518,7 @@ public class GameManager {
 	private Player changePositions(Player current, Player successor) {
 
 		Player parent = parent(current, successor);
-//		
-//		
-//		if(successor.getRight() != null) {
-//			
-//			parent.setLeft(successor.getRight());
-//			
-//		} else {
-//			
-//			parent.setLeft(null);
-//		}
-//		
-//		Player aux = current;
-//		
-//		successor.setRight(aux.getRight());
-//		successor.setLeft(aux.getLeft());
-//		
-//		current = null;
-		
-		
+
 		Player aux = successor;
 
 		if(successor.getRight() != null) {
@@ -659,8 +564,6 @@ public class GameManager {
 
 		current = current.getRight();
 		
-		System.out.println("S: " + successor);
-		
 		if(current.getLeft() != null) {
 			
 			while(current.getLeft() != successor){
@@ -678,11 +581,7 @@ public class GameManager {
 
 			if(root.getName().equals(p.getName())) {
 
-				System.out.println("Is Root Leaf: " + root.isLeaf());
-
 				if(root.isLeaf()) { //FINE
-
-					System.out.println("---root: " + root);
 
 					if(root.getName().equals(this.root.getName())) {
 
@@ -696,26 +595,16 @@ public class GameManager {
 
 				} else if(root.getRight() != null && root.getLeft() != null) {
 
-					//				Player aux = root.getLeft();
-					//				root = successor(root);
-					System.out.println("--root: " + root);
-					//				root.setRight(remove(p, root.getRight()));
-					//				root.setLeft(aux);
-					//				root.setLeaf(true);
-
-					System.out.println("Successor: " + successor(root));
 					root = changePositions(root, successor(root));
 
 				} else if(root.getRight() != null) {
 
 					root = successor(root);
-					System.out.println("-root: " + root);
 					root.setRight(removeRoot(p, root.getRight()));
 
 				} else if(root.getLeft() != null) {
 
 					root = predecessor(root);
-					System.out.println("root: " + root);
 					root.setLeft(removeRoot(p, root.getLeft()));
 				}
 			} 
@@ -811,8 +700,6 @@ public class GameManager {
 
 		String result = "";
 
-		//		System.out.println("=" + root);
-
 		if(r != null) {
 
 			result += r.nodeForm();
@@ -833,14 +720,6 @@ public class GameManager {
 		}
 		
 		return result;
-	}
-	
-	public void printArray(String[] array) {
-
-		for(int i = 0; i < array.length; i++) {
-			
-			System.out.print(array[i] + " ");
-		}
 	}
 	
 	public Player findPlayer(String name) {

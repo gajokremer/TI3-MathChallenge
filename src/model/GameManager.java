@@ -508,64 +508,61 @@ public class GameManager {
 		}
 	}
 	
-	public void removePlayer(Player p) {
+	public boolean removePlayer(Player p) {
 
 		Player prev = null;
 		
-		remove(p, root);
-		
-//		removeCopy(root, p);
+		if(remove(p, root) == p) {
+			
+			return true;
+			
+		} else {
+			
+			return false;
+		}
 	}
 	
 	private Player remove(Player p, Player current) {
-
-//		if(current.isLeaf()) {
-//			
-//			if(prev == null) {
-//				
-//				if(current == root && root == p) {
-//					
-//					root = null;
-//				}
-//				
-//			} else {
-//
-//				if(prev.getLeft() == current && current == p) {
-//					
-//					prev.setLeft(null);
-//					
-//				} else if(prev.getRight() == current && current == p) {
-//					
-//					prev.setRight(null);
-//				}
-//			}
-//			
-//		} else {
-//			
-//			remove(p, current.getLeft(), current);
-//			remove(p, current.getRight(), current);
-//		}
 		
+		System.out.println("+Current: " + current);
+
 		if(current == null) {
 			
+			System.out.println("++Current: " + current);
 			return current;
 		
 		} else {
 			
+			System.out.println("=Is it?: " + current.getName().equals(p.getName()));
+			
 			if(current.getName().equals(p.getName())) {
 				
-				if(current.isLeaf()) {
+				System.out.println("Is Leaf: " + current.isLeaf());
+				
+				if(current.isLeaf()) { //FINE
 					
+					System.out.println("---Current: " + current);
 					current = null;
+					
+				} else if(current.getRight() != null && current.getLeft() != null) {
+					
+					Player aux = current.getLeft();
+					current = successor(current);
+					System.out.println("--Current: " + current);
+					current.setRight(remove(p, current.getRight()));
+					current.setLeft(aux);
+					current.setLeaf(true);
 					
 				} else if(current.getRight() != null) {
 					
 					current = successor(current);
+					System.out.println("-Current: " + current);
 					current.setRight(remove(p, current.getRight()));
 					
 				} else if(current.getLeft() != null) {
 					
 					current = predecessor(current);
+					System.out.println("Current: " + current);
 					current.setLeft(remove(p, current.getLeft()));
 				}
 				
@@ -573,10 +570,12 @@ public class GameManager {
 				
 				if(p.getScore() > current.getScore()) {
 					
+					System.out.println("Take right");;
 					current.setRight(remove(p, current.getRight()));
 					
 				} else if(p.getScore() <= current.getScore()) {
 					
+					System.out.println("Take left");;
 					current.setLeft(remove(p, current.getLeft()));
 				}
 			}
@@ -585,59 +584,59 @@ public class GameManager {
 		return current;
 	}
 
-	public Player removeCopy(Player current, Player p) {
-
-		int key = p.getScore();
-
-		if(current == null) {
-			
-			return current;
-			
-		} 
-//		else if(current == root) {
+//	public Player removeCopy(Player current, Player p) {
+//
+//		int key = p.getScore();
+//
+//		if(current == null) {
 //			
-//			root = null;
+//			return current;
+//			
+//		} 
+////		else if(current == root) {
+////			
+////			root = null;
+////		}
+//		
+//		if(key > current.getScore()) { //move right
+//			
+////			current.right = removeCopy(current.right, key);
+//			current.setRight(removeCopy(current.getRight(), p));
+//			
+//		} else if(key <= current.getScore()) { //move left
+//			
+////			current.left = removeCopy(current.left, key);
+//			current.setLeft(removeCopy(current.getLeft(), p));
+//			
+//		} else { //oh yes, we finally found the target
+//			
+//			if(current.getName().equals(p.getName())) {
+//				
+//				System.out.println("Same Name");
+//				
+////			if(current.left == null && current.right == null){ //hmm, its a leaf node; easy peasy
+//				if(current.isLeaf()) { //hmm, its a leaf node; easy peasy
+//					
+//					current = null;
+//					
+//				} else if(current.getRight() != null) { // oh, it has a right child, don't make it an orphan or is it old enough to become a parent ? lets find out
+//					
+//					current = successor(current); // my worthy successor
+////				current.right = removeCopy(current.right, current.val);
+//					current.setRight(removeCopy(current.getRight(), p)); 
+//					
+//				} else { //oh it seems that I do not have a worthy successor, fallback, fallback ...
+//					
+//					current = predecessor(current);
+////				current.left = removeCopy(current.left, current.val);
+//					current.setLeft(removeCopy(current.getLeft(), p)); 
+//				}
+//			}
 //		}
-		
-		if(key > current.getScore()) { //move right
-			
-//			current.right = removeCopy(current.right, key);
-			current.setRight(removeCopy(current.getRight(), p));
-			
-		} else if(key <= current.getScore()) { //move left
-			
-//			current.left = removeCopy(current.left, key);
-			current.setLeft(removeCopy(current.getLeft(), p));
-			
-		} else { //oh yes, we finally found the target
-			
-			if(current.getName().equals(p.getName())) {
-				
-				System.out.println("Same Name");
-				
-//			if(current.left == null && current.right == null){ //hmm, its a leaf node; easy peasy
-				if(current.isLeaf()) { //hmm, its a leaf node; easy peasy
-					
-					current = null;
-					
-				} else if(current.getRight() != null) { // oh, it has a right child, don't make it an orphan or is it old enough to become a parent ? lets find out
-					
-					current = successor(current); // my worthy successor
-//				current.right = removeCopy(current.right, current.val);
-					current.setRight(removeCopy(current.getRight(), p)); 
-					
-				} else { //oh it seems that I do not have a worthy successor, fallback, fallback ...
-					
-					current = predecessor(current);
-//				current.left = removeCopy(current.left, current.val);
-					current.setLeft(removeCopy(current.getLeft(), p)); 
-				}
-			}
-		}
-		
-		return current;
-	}
-
+//		
+//		return current;
+//	}
+//
 	private Player successor(Player root){
 		
 		root = root.getRight();
@@ -661,6 +660,66 @@ public class GameManager {
 		
 		return root;
 	}
+	
+	//************************************************************************
+
+	private int counter = 0;
+	
+	private Player removeRecursive(Player current, String name) {
+		
+		System.out.println("Current: " + current);
+		counter++;
+		System.out.println("-" + counter);
+
+		if(current == null) {
+
+			return null;
+		}
+
+		if(current.getName().equals(name)) {
+
+			return join(current.getLeft(), current.getRight());
+		}
+
+		if(name.compareTo(current.getName()) <= 0) {
+
+			current.getLeft();
+
+			return removeRecursive(current.getLeft(), name);
+
+		} else {
+
+			current.getRight();
+
+			return removeRecursive(current.getRight(), name);
+		}
+	}
+
+	private Player join(Player left, Player right) {
+
+		if(left == null) {
+
+			return right;
+
+		}
+
+		if(right == null) {
+
+			return left;
+
+		}
+
+		Player center = join(left.getRight(), right.getLeft());
+
+		left.setRight(center);
+
+		right.setLeft(left);
+
+		return right;
+
+	}
+
+	//************************************************************************
 
 	public List<Player> orderedPlayerList() {
 

@@ -51,7 +51,15 @@ public class Player implements Serializable {
 	}
 	
 	public boolean isLeaf() {
-		return isLeaf;
+		
+		if(right == null && left == null) {
+			
+			return true;
+			
+		} else {
+			
+			return false;
+		}
 	}
 
 	public void setLeaf(boolean isLeaf) {

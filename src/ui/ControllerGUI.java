@@ -1,5 +1,6 @@
 package ui;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -328,10 +329,12 @@ public class ControllerGUI {
 			tfPlayerRank.setText(String.valueOf(gm.findPlayerPos(gm.getPlayingNow().getName())));
 		}
 		
-		gm.saveData();
+//		gm.saveData();
 	}
 	
-	private void initializePodiumTableView() {
+	private void initializePodiumTableView() throws FileNotFoundException, IOException {
+		
+		gm.saveData();
 		
 		System.out.println("\nPrint from root: \n" + gm.print(gm.getRoot()));
 		
@@ -444,11 +447,9 @@ public class ControllerGUI {
 			Player p = gm.findPlayer(tfPlayerToFind.getText());
 			
 			System.out.println("\nExists: " + gm.playerExists(p));
-			System.out.println("Player to remove: " + p);
+			System.out.println("Player to remove: " + p + "\n");
 			
 			if(gm.playerExists(p)) {
-				
-				System.out.println("Inside");
 				
 				gm.removePlayer(p);
 

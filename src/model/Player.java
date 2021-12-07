@@ -54,12 +54,14 @@ public class Player implements Serializable {
 		
 		if(right == null && left == null) {
 			
-			return true;
+			isLeaf = true;
 			
 		} else {
 			
-			return false;
+			isLeaf = false;
 		}
+		
+		return isLeaf;
 	}
 
 	public void setLeaf(boolean isLeaf) {

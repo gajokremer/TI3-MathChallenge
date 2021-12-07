@@ -93,9 +93,9 @@ public class GameManager {
 		int type = generateType();
 		
 		int[] answers = generateProblem(type, true);
-//		System.out.println("\nAnswers: " + answers);
+//		//System.out.println("\nAnswers: " + answers);
 
-//		System.out.print("\n\nBefore GUI: ");
+//		//System.out.print("\n\nBefore GUI: ");
 //		printArray(answers);
 		
 		return answers;
@@ -123,9 +123,9 @@ public class GameManager {
 //			int a = 100;
 //			int b = 50;
 			
-//			System.out.println("a: " + a);
-//			System.out.println("b: " + b);
-//			System.out.println("type: " + type + "\n");
+//			//System.out.println("a: " + a);
+//			//System.out.println("b: " + b);
+//			//System.out.println("type: " + type + "\n");
 			
 			if(type != 4) {
 				
@@ -136,7 +136,7 @@ public class GameManager {
 			} else if(type == 4) {
 				
 				valid = isValid(a, b);
-//				System.out.println("Valid: " + valid);
+//				//System.out.println("Valid: " + valid);
 				
 				if(valid) {
 					
@@ -152,7 +152,7 @@ public class GameManager {
 			}
 		}
 		
-//		System.out.println("-Answers: " + answers);
+//		//System.out.println("-Answers: " + answers);
 		
 		return null;
 	}
@@ -198,7 +198,7 @@ public class GameManager {
 		}
 		
 		setCurrentQuestion(result);
-//		System.out.println("Equation: " + result);
+//		//System.out.println("Equation: " + result);
 	}
 	
 	private boolean isValid(int a, int b) {
@@ -308,43 +308,43 @@ public class GameManager {
 			lower = 0;
 		}
 //		
-//		System.out.println("Correct: " + correct);
-//		System.out.println("Upper: " + upper);
-//		System.out.println("Lower: " + lower + "\n");
+//		//System.out.println("Correct: " + correct);
+//		//System.out.println("Upper: " + upper);
+//		//System.out.println("Lower: " + lower + "\n");
 		
 		int wrong1, wrong2, wrong3;
 		
 		
 		wrong1 = lower + (int) (Math.random() * ((upper - lower) + 1));
-//		System.out.println("Wrong1: " + wrong1);
+//		//System.out.println("Wrong1: " + wrong1);
 		
 		while(wrong1 == correct) {
 			
 			wrong1 = lower + (int) (Math.random() * ((upper - lower) + 1));
-//			System.out.println("New Wrong1: " + wrong1);
+//			//System.out.println("New Wrong1: " + wrong1);
 		}
 		
 		wrong2 = lower + (int) (Math.random() * ((upper - lower) + 1));
-//		System.out.println("Wrong2: " + wrong2);
+//		//System.out.println("Wrong2: " + wrong2);
 		
 		while(wrong2 == correct || wrong2 == wrong1) {
 			
 			wrong2 = lower + (int) (Math.random() * ((upper - lower) + 1));
-//			System.out.println("New Wrong2: " + wrong2);
+//			//System.out.println("New Wrong2: " + wrong2);
 		}
 		
 		wrong3 = lower + (int) (Math.random() * ((upper - lower) + 1));
-//		System.out.println("Wrong3: " + wrong3);
+//		//System.out.println("Wrong3: " + wrong3);
 		
 		while(wrong3 == correct || wrong3 == wrong1 || wrong3 == wrong2) {
 			
 			wrong3 = lower + (int) (Math.random() * ((upper - lower) + 1));
-//			System.out.println("New Wrong3: " + wrong3);
+//			//System.out.println("New Wrong3: " + wrong3);
 		}
 		
 		int[] answers = {correct, wrong1, wrong2, wrong3};
 		
-//		System.out.print("Before: ");
+//		//System.out.print("Before: ");
 //		printArray(answers);
 		
 		Random rand = new Random();
@@ -357,11 +357,11 @@ public class GameManager {
 			answers[i] = temp;
 		}
 		
-//		System.out.println();
-//		System.out.print("Random: ");
+//		//System.out.println();
+//		//System.out.print("Random: ");
 //		printArray(answers);
 		
-//		System.out.println("\n\nAnswers: " + answers);
+//		//System.out.println("\n\nAnswers: " + answers);
 		
 		return answers;
 	}
@@ -455,7 +455,7 @@ public class GameManager {
 		
 		add(p, root);
 		
-		System.out.println("\nTrue Root: " + root);
+		//System.out.println("\nTrue Root: " + root);
 	}
 	
 	private void add(Player p, Player r) {
@@ -467,8 +467,8 @@ public class GameManager {
 
 		} else {
 			
-			System.out.println("Root: " + r);
-			System.out.println("Player: " + p);
+			//System.out.println("Root: " + r);
+			//System.out.println("Player: " + p);
 			
 			int rScore = 0;
 			int pScore = 0;
@@ -510,7 +510,7 @@ public class GameManager {
 	
 	public boolean removePlayer(Player p) {
 
-		Player prev = null;
+//		Player prev = null;
 		
 		if(remove(p, root) == p) {
 			
@@ -524,31 +524,35 @@ public class GameManager {
 	
 	private Player remove(Player p, Player current) {
 		
-		System.out.println("+Current: " + current);
+		//System.out.println("+Current: " + current);
 
 		if(current == null) {
 			
-			System.out.println("++Current: " + current);
+			//System.out.println("++Current: " + current);
 			return current;
 		
+		} else if(current == root) {
+		
+			current = removeRoot(p);
+			
 		} else {
 			
-			System.out.println("=Is it?: " + current.getName().equals(p.getName()));
+			//System.out.println("=Is it?: " + current.getName().equals(p.getName()));
 			
 			if(current.getName().equals(p.getName())) {
 				
-				System.out.println("Is Leaf: " + current.isLeaf());
+				//System.out.println("Is Leaf: " + current.isLeaf());
 				
 				if(current.isLeaf()) { //FINE
 					
-					System.out.println("---Current: " + current);
+					//System.out.println("---Current: " + current);
 					current = null;
 					
 				} else if(current.getRight() != null && current.getLeft() != null) {
 					
 					Player aux = current.getLeft();
 					current = successor(current);
-					System.out.println("--Current: " + current);
+					//System.out.println("--Current: " + current);
 					current.setRight(remove(p, current.getRight()));
 					current.setLeft(aux);
 					current.setLeaf(true);
@@ -556,13 +560,13 @@ public class GameManager {
 				} else if(current.getRight() != null) {
 					
 					current = successor(current);
-					System.out.println("-Current: " + current);
+					//System.out.println("-Current: " + current);
 					current.setRight(remove(p, current.getRight()));
 					
 				} else if(current.getLeft() != null) {
 					
 					current = predecessor(current);
-					System.out.println("Current: " + current);
+					//System.out.println("Current: " + current);
 					current.setLeft(remove(p, current.getLeft()));
 				}
 				
@@ -570,12 +574,12 @@ public class GameManager {
 				
 				if(p.getScore() > current.getScore()) {
 					
-					System.out.println("Take right");;
+					//System.out.println("Take right");;
 					current.setRight(remove(p, current.getRight()));
 					
 				} else if(p.getScore() <= current.getScore()) {
 					
-					System.out.println("Take left");;
+					//System.out.println("Take left");;
 					current.setLeft(remove(p, current.getLeft()));
 				}
 			}
@@ -583,60 +587,44 @@ public class GameManager {
 		
 		return current;
 	}
+	
+	private Player removeRoot(Player p) {
 
-//	public Player removeCopy(Player current, Player p) {
-//
-//		int key = p.getScore();
-//
-//		if(current == null) {
-//			
-//			return current;
-//			
-//		} 
-////		else if(current == root) {
-////			
-////			root = null;
-////		}
-//		
-//		if(key > current.getScore()) { //move right
-//			
-////			current.right = removeCopy(current.right, key);
-//			current.setRight(removeCopy(current.getRight(), p));
-//			
-//		} else if(key <= current.getScore()) { //move left
-//			
-////			current.left = removeCopy(current.left, key);
-//			current.setLeft(removeCopy(current.getLeft(), p));
-//			
-//		} else { //oh yes, we finally found the target
-//			
-//			if(current.getName().equals(p.getName())) {
-//				
-//				System.out.println("Same Name");
-//				
-////			if(current.left == null && current.right == null){ //hmm, its a leaf node; easy peasy
-//				if(current.isLeaf()) { //hmm, its a leaf node; easy peasy
-//					
-//					current = null;
-//					
-//				} else if(current.getRight() != null) { // oh, it has a right child, don't make it an orphan or is it old enough to become a parent ? lets find out
-//					
-//					current = successor(current); // my worthy successor
-////				current.right = removeCopy(current.right, current.val);
-//					current.setRight(removeCopy(current.getRight(), p)); 
-//					
-//				} else { //oh it seems that I do not have a worthy successor, fallback, fallback ...
-//					
-//					current = predecessor(current);
-////				current.left = removeCopy(current.left, current.val);
-//					current.setLeft(removeCopy(current.getLeft(), p)); 
-//				}
-//			}
-//		}
-//		
-//		return current;
-//	}
-//
+		if(root.getName().equals(p.getName())) {
+			
+			//System.out.println("Is Leaf: " + root.isLeaf());
+			
+			if(root.isLeaf()) { //FINE
+				
+				//System.out.println("---root: " + root);
+				root = null;
+				
+			} else if(root.getRight() != null && root.getLeft() != null) {
+				
+				Player aux = root.getLeft();
+				root = successor(root);
+				//System.out.println("--root: " + root);
+				root.setRight(remove(p, root.getRight()));
+				root.setLeft(aux);
+				root.setLeaf(true);
+				
+			} else if(root.getRight() != null) {
+				
+				root = successor(root);
+				//System.out.println("-root: " + root);
+				root.setRight(remove(p, root.getRight()));
+				
+			} else if(root.getLeft() != null) {
+				
+				root = predecessor(root);
+				//System.out.println("root: " + root);
+				root.setLeft(remove(p, root.getLeft()));
+			}
+		} 
+		
+		return p;
+	}
+
 	private Player successor(Player root){
 		
 		root = root.getRight();
@@ -661,66 +649,6 @@ public class GameManager {
 		return root;
 	}
 	
-	//************************************************************************
-
-	private int counter = 0;
-	
-	private Player removeRecursive(Player current, String name) {
-		
-		System.out.println("Current: " + current);
-		counter++;
-		System.out.println("-" + counter);
-
-		if(current == null) {
-
-			return null;
-		}
-
-		if(current.getName().equals(name)) {
-
-			return join(current.getLeft(), current.getRight());
-		}
-
-		if(name.compareTo(current.getName()) <= 0) {
-
-			current.getLeft();
-
-			return removeRecursive(current.getLeft(), name);
-
-		} else {
-
-			current.getRight();
-
-			return removeRecursive(current.getRight(), name);
-		}
-	}
-
-	private Player join(Player left, Player right) {
-
-		if(left == null) {
-
-			return right;
-
-		}
-
-		if(right == null) {
-
-			return left;
-
-		}
-
-		Player center = join(left.getRight(), right.getLeft());
-
-		left.setRight(center);
-
-		right.setLeft(left);
-
-		return right;
-
-	}
-
-	//************************************************************************
-
 	public List<Player> orderedPlayerList() {
 
 		players.removeAll(players);
@@ -760,7 +688,7 @@ public class GameManager {
 
 		String result = "";
 
-		//		System.out.println("=" + root);
+		//		//System.out.println("=" + root);
 
 		if(r != null) {
 
@@ -788,7 +716,7 @@ public class GameManager {
 
 		for(int i = 0; i < array.length; i++) {
 			
-			System.out.print(array[i] + " ");
+			//System.out.print(array[i] + " ");
 		}
 	}
 	
